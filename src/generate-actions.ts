@@ -1,8 +1,8 @@
 import { getSchemaType } from "./helpers"
 import { ActionArgs, Parameter, Paths } from "./types"
 
-function reduceParameters(parameters: Parameter[]) {
-  return parameters.reduce((result, next) => ({ ...result, [next.name]: { required: next.required, schemaType: getSchemaType(next.schema) } }), {} as ActionArgs)
+function reduceParameters(parameters: Parameter[]): ActionArgs {
+  return parameters.reduce((result, next) => ({ ...result, [next.name]: { required: next.required ?? true, schemaType: getSchemaType(next.schema) } }), {} as ActionArgs)
 }
 
 function joinArgs(args: ActionArgs) {
