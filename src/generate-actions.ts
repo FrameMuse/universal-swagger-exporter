@@ -40,13 +40,13 @@ function generateActions(paths: Paths, schemas: Schemas) {
 
       lines.push(`\n`)
       lines.push(`export const ${pathMethod}${action} = (${argsString}): ${returnType} => ({\n`)
-      lines.push(`\tmethod: "${pathMethod}",\n`)
-      lines.push(`\tendpoint: \`${path.replace(/{/g, "${")}\``)
+      lines.push(`  method: "${pathMethod}",\n`)
+      lines.push(`  endpoint: \`${path.replace(/{/g, "${")}\``)
       if (paramsString.length > 0) {
-        lines.push(`,\n\tparams: { ${paramsString} }`)
+        lines.push(`,\n  params: { ${paramsString} }`)
       }
       if (requestBodyString.length > 0) {
-        lines.push(`,\n\tbody: { ${requestBodyString} }`)
+        lines.push(`,\n  body: { ${requestBodyString} }`)
       }
       lines.push(`\n})\n`)
     }

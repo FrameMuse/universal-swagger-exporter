@@ -4,7 +4,7 @@ import { Schemas } from "types"
 export function generateSchemasImports(schemas: Schemas) {
   const imports: string[] = []
   imports.push(...Object.keys(schemas).map(formatString))
-  return `import {\n${imports.map(i => "\tSchema" + i).join(",\n")}\n} from "./schemas"`
+  return `import {\n${imports.map(i => "  Schema" + i).join(",\n")}\n} from "./schemas"`
 }
 
 function generateSchemas(schemas: Schemas) {
@@ -16,7 +16,7 @@ function generateSchemas(schemas: Schemas) {
 
     for (const propertyName in schema.properties) {
       const property = getSchemaType(schema.properties[propertyName])
-      lines.push(`\t${propertyName}: ${property}`)
+      lines.push(`  ${propertyName}: ${property}`)
       lines.push(`\n`)
     }
 
