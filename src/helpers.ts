@@ -43,7 +43,7 @@ export function getSchemaType(scheme: Schema) {
 
 export function reduceProperties(props?: Record<string, Schema>, required?: string[]): string {
   if (props == null) return "{ }"
-  const propsString = Object.keys(props).map(prop => `  ${prop}${required?.includes(prop) ? "?" : ""}: ${getSchemaType(props[prop])}`, "").join("\n")
+  const propsString = Object.keys(props).map(prop => `  ${prop}${required ? (!required.includes(prop) ? "?" : "") : ""}: ${getSchemaType(props[prop])}`, "").join("\n")
   return `{\n${propsString}\n}`
 }
 
