@@ -1,7 +1,8 @@
 export type Primitive = "string" | "integer" | "number" | "boolean" | "array" | "object"
 export type Schema =
-  | { type: Exclude<Primitive, "array"> }
-  | { type: "array", items: { type?: string, $ref?: string } }
+  | { type: Exclude<Primitive, "array" | "object"> }
+  | { type: "array", items: Schema }
+  | { type: "object", $ref?: string, required?: string[], properties?: Record<string, Schema> }
   | { type: undefined, $ref: string }
 
 export interface Parameter {
@@ -30,6 +31,6 @@ export type PathMethod = Record<string, {
 }>
 
 export type Paths = Record<string, PathMethod>
-export type Schemas = Record<string, { type: string, properties: Record<string, Schema> }>
+export type Schemas = Record<string, Schema>
 
 export type ActionArgs = Record<string, { required: boolean, schemaType: string }>

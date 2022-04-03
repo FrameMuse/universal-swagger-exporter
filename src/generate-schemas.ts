@@ -1,4 +1,4 @@
-import { formatString, getSchemaType } from "helpers"
+import { formatString, getSchemaType, reduceProperties } from "helpers"
 import { Schemas } from "types"
 
 export function generateSchemasImports(schemas: Schemas) {
@@ -11,16 +11,28 @@ function generateSchemas(schemas: Schemas) {
   const lines: string[] = []
   for (const schemaName in schemas) {
     const schema = schemas[schemaName]
+    const schemaNameFormatted = formatString(schemaName)
     lines.push(`\n`)
-    lines.push(`export interface Schema${formatString(schemaName)} {\n`)
 
-    for (const propertyName in schema.properties) {
-      const property = getSchemaType(schema.properties[propertyName])
-      lines.push(`  ${propertyName}: ${property}`)
-      lines.push(`\n`)
+    switch (schema.type) {
+      case "object":
+        lines.push(`export interface Schema${schemaNameFormatted}`)
+        lines.push(` `)
+        lines.push(reduceProperties(schema.properties, schema.required))
+        break
+
+      default:
+        lines.push(`export type Schema${schemaNameFormatted} = ${getSchemaType(schema)}`)
+        break
     }
 
-    lines.push(`}\n`)
+    // for (const propertyName in schema.properties) {
+    //   const property = getSchemaType(schema.properties[propertyName])
+    //   lines.push(`  ${propertyName}: ${property}`)
+    //   lines.push(`\n`)
+    // }
+
+    lines.push(`\n`)
   }
   return lines.join("")
 }

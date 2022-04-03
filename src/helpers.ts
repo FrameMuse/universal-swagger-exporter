@@ -2,8 +2,12 @@ import { Schema, Schemas } from "./types"
 
 export function deRefSchema(schemas: Schemas, ref?: string) {
   if (ref == null) return {}
-  const schema = ref.replace("#/components/schemas/", "")
-  return schemas[schema].properties
+  const schemaRef = ref.replace("#/components/schemas/", "")
+  const schema = schemas[schemaRef]
+  if (schema.type === "object") {
+    return schema.properties || {}
+  }
+  return {}
 }
 export function deRefSchemaType(ref?: string) {
   if (ref == null) return ""
@@ -18,6 +22,16 @@ export function getSchemaType(scheme: Schema) {
       return deRefSchemaType(scheme.items.$ref) + "[]"
     }
 
+    case "object": {
+      if (scheme.properties) {
+        return reduceProperties(scheme.properties, scheme.required)
+      }
+      if (scheme.$ref) {
+        return deRefSchemaType(scheme.$ref)
+      }
+      return scheme.type
+    }
+
     default: {
       if (scheme.type) {
         return scheme.type.replace("integer", "number")
@@ -25,6 +39,12 @@ export function getSchemaType(scheme: Schema) {
       return deRefSchemaType(scheme.$ref)
     }
   }
+}
+
+export function reduceProperties(props?: Record<string, Schema>, required?: string[]): string {
+  if (props == null) return "{ }"
+  const propsString = Object.keys(props).map(prop => `  ${prop}${required?.includes(prop) ? "?" : ""}: ${getSchemaType(props[prop])}`, "").join("\n")
+  return `{\n${propsString}\n}`
 }
 
 export function capitalize(string: string) {
