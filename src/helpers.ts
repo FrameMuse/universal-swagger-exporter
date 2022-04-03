@@ -23,6 +23,12 @@ export function getSchemaType(scheme: Schema) {
       return scheme.type
     }
 
+    // @ts-expect-error
+    case "string":
+      if (scheme.enum) {
+        return scheme.enum.map(element => `"${element}"`).join(" | ") + (scheme.default ? ` = "${scheme.default}"` : "")
+      }
+    // Intentional fallthrough
     default: {
       if (scheme.type) {
         return scheme.type.replace("integer", "number")
