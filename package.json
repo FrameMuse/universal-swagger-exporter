@@ -6,6 +6,7 @@
   "scripts": {
     "build": "ncc build src/index.ts -m",
     "watch": "ncc build src/index.ts -w",
+    "compile": "npm run build && npm run start",
     "help": "ncc",
     "start": "node dist/index.js"
   },
