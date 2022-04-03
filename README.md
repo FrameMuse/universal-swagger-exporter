@@ -22,4 +22,4 @@ To use
 #### Query Params
 They are stored in `params` property, you will have to handle it in your `intercepter`.
 #### Action Import
-It is imported as I would like to use it, you may have to change it.
+It is imported as how I would like to use it, you may have to change it.
