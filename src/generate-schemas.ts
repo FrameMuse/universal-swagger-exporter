@@ -26,12 +26,6 @@ function generateSchemas(schemas: Schemas) {
         break
     }
 
-    // for (const propertyName in schema.properties) {
-    //   const property = getSchemaType(schema.properties[propertyName])
-    //   lines.push(`  ${propertyName}: ${property}`)
-    //   lines.push(`\n`)
-    // }
-
     lines.push(`\n`)
   }
   return lines.join("")

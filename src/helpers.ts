@@ -1,14 +1,5 @@
-import { Schema, Schemas } from "./types"
+import { Schema } from "./types"
 
-export function deRefSchema(schemas: Schemas, ref?: string) {
-  if (ref == null) return {}
-  const schemaRef = ref.replace("#/components/schemas/", "")
-  const schema = schemas[schemaRef]
-  if (schema.type === "object") {
-    return schema.properties || {}
-  }
-  return {}
-}
 export function deRefSchemaType(ref?: string) {
   if (ref == null) return ""
   return ref.replace(/#\/components\/schemas\/(\w+)/, (_, g) => "Schema" + formatString(g))

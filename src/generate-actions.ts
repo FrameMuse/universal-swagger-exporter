@@ -1,9 +1,6 @@
-import { deRefSchema, getSchemaType } from "./helpers"
-import { ActionArgs, Parameter, Paths, Schema, Schemas } from "./types"
+import { getSchemaType } from "./helpers"
+import { ActionArgs, Parameter, Paths } from "./types"
 
-function reduceBody(body: Record<string, Schema>) {
-  return "{ " + joinArgs(Object.keys(body).reduce((result, key) => ({ ...result, [key]: { required: true, schemaType: getSchemaType(body[key]) } }), {})) + " }"
-}
 function reduceParameters(parameters: Parameter[]) {
   return parameters.reduce((result, next) => ({ ...result, [next.name]: { required: next.required, schemaType: getSchemaType(next.schema) } }), {} as ActionArgs)
 }
