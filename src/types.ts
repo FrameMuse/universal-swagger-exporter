@@ -18,7 +18,7 @@ export type PathMethod = Record<string, {
   parameters?: Parameter[]
   requestBody?: {
     content: {
-      "multipart/form-data": { schema: { $ref: string } }
+      "multipart/form-data": { schema: Schema }
     }
   }
   responses: Record<string, {

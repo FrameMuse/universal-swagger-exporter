@@ -12,7 +12,7 @@ function joinArgs(args: ActionArgs) {
   return Object.keys(args).map(arg => `${arg}${args[arg].required ? "" : "?"}: ${args[arg].schemaType}`).join(", ")
 }
 
-function generateActions(paths: Paths, schemas: Schemas) {
+function generateActions(paths: Paths) {
   const lines: string[] = []
   for (const path in paths) {
     const pathMethods = paths[path]
@@ -22,11 +22,10 @@ function generateActions(paths: Paths, schemas: Schemas) {
       const pathContentRequestBody = pathContent.requestBody
       const pathContentResponseCodes = Object.keys(pathContent.responses)
 
-      const requestBody = deRefSchema(schemas, pathContentRequestBody?.content["multipart/form-data"].schema.$ref)
-      const requestBodyString = Object.keys(requestBody).join(", ")
+      const requestBody = pathContentRequestBody?.content["multipart/form-data"]
+      const requestBodyType = requestBody && getSchemaType(requestBody.schema)
 
-      const args: ActionArgs = { ...reduceParameters(pathContentParameters), body: { required: true, schemaType: reduceBody(requestBody) } }
-      if (requestBodyString.length === 0) delete args.body
+      const args: ActionArgs = reduceParameters(pathContentParameters)
       const argsString = joinArgs(args)
 
       const params = reduceParameters(pathContentParameters.filter(param => param.in === "query"))
@@ -44,13 +43,13 @@ function generateActions(paths: Paths, schemas: Schemas) {
       const returnType = payload ? `Action<${payload}>` : "Action"
 
       lines.push(`\n`)
-      lines.push(`export const ${pathMethod}${action} = (${argsString}): ${returnType} => ({\n`)
+      lines.push(`export const ${pathMethod}${action} = (${argsString}${requestBodyType ? `${argsString.length ? ", " : ""}body: ${requestBodyType}` : ""}): ${returnType} => ({\n`)
       lines.push(`  method: "${pathMethod.toUpperCase()}",\n`)
       lines.push(`  endpoint: \`${path.replace(/{/g, "${")}\``)
       if (paramsString.length > 0) {
         lines.push(`,\n  params: { ${paramsString} }`)
       }
-      if (requestBodyString.length > 0) {
+      if (requestBodyType) {
         lines.push(`,\n  body`)
       }
       lines.push(`\n})\n`)

@@ -21,7 +21,7 @@ const schemas: Schemas = TestJSON.components.schemas
   fs.writeSync(file, `\n`)
   fs.writeSync(file, generateSchemasImports(schemas))
   fs.writeSync(file, `\n`)
-  fs.writeSync(file, generateActions(paths, schemas))
+  fs.writeSync(file, generateActions(paths))
   fs.closeSync(file)
 }
 
