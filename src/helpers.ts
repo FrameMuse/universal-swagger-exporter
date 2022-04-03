@@ -4,11 +4,11 @@ export function deRefSchemaType(ref?: string) {
   if (ref == null) return ""
   return ref.replace(/#\/components\/schemas\/(\w+)/, (_, g) => "Schema" + formatString(g))
 }
-export function getSchemaType(scheme: Schema) {
+export function getSchemaType(scheme: Schema): string {
   switch (scheme.type) {
     case "array": {
       if (scheme.items.type) {
-        return scheme.items.type.replace("integer", "number") + "[]"
+        return getSchemaType(scheme.items) + "[]"
       }
       return deRefSchemaType(scheme.items.$ref) + "[]"
     }
