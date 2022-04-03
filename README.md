@@ -13,7 +13,7 @@ To install
 
 To use
 
-- Put your data to `data/api.json`
+- Put your data to [`data/api.json`](https://github.com/FrameMuse/swagger-export-rfl/blob/main/data/api.json)
 - Run `npm run build` to compile source files
 - Run `npm start`, your output files will be in `out` directory
 - Enjoy yourself!
