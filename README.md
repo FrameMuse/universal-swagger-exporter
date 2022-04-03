@@ -17,3 +17,9 @@ To use
 - Run `npm run build` to compile source files
 - Run `npm start`, your output files will be in `out` directory
 - Enjoy yourself!
+
+## Notices
+#### Query Params
+They are stored in `params` property, you will have to handle it in your `intercepter`.
+#### Action Import
+It is imported as I would like to use it, you may have to change it.
