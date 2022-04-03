@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["ES5", "ES6"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+
+    "strictNullChecks": true,
+    "downlevelIteration": true,
+    "noImplicitAny": true,
+    "alwaysStrict": true,
+
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "baseUrl": "src",
+    // "outDir": "scripts",
+    "rootDir": "src",
+    "sourceMap": true
+  },
+  // "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.json"],
+  "exclude": ["node_modules/**/*", "build", "config", "docs", "env", "dist", "out", "public", ".vscode", ".github", "test"]
+}

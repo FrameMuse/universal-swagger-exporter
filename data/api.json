@@ -1,0 +1,3753 @@
+{
+  "openapi": "3.0.1",
+  "paths": {
+    "/get/pages/{pages_id}": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "Get content page data",
+        "parameters": [
+          {
+            "name": "pages_id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Content"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/pages/{url}": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "Get content page data",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Content"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/menu": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "Меню",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagesMenu"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/breadcrumbs/{pages_id}": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "Хлебные крошки",
+        "parameters": [
+          {
+            "name": "pages_id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagesMenu"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/filters": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "фильтрации по категориям/подкатегориям/цене",
+        "parameters": [
+          {
+            "name": "price",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/price"
+              }
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "name": "seller_type",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "all",
+              "enum": [
+                "all",
+                "users",
+                "legal_entity"
+              ]
+            }
+          },
+          {
+            "name": "delivery",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "all",
+              "enum": [
+                "all",
+                "other_regions",
+                "only_city"
+              ]
+            }
+          },
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/period"
+              }
+            }
+          },
+          {
+            "name": "started",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchLists"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/filters/category": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "Параметры фильтра",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryLists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/search": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "поисковый модуль в виде бесконечной ленты",
+        "parameters": [
+          {
+            "name": "s",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchLists"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/recommendations": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "Recommendations",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Recommendations"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/delivery/address": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "Получении стоимости доставки по координатам",
+        "parameters": [
+          {
+            "name": "users_coordinate",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/users_coordinate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryPrice"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/delivery/zone": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "Зоны доставки",
+        "parameters": [
+          {
+            "name": "users_coordinate",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/users_coordinate_1"
+            }
+          },
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryZone"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/advertising": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "Advertising",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Advertising"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/advertising/follow_link/{uid}": {
+      "get": {
+        "tags": [
+          "Содержание"
+        ],
+        "description": "follow the link",
+        "parameters": [
+          {
+            "name": "uid",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvertisingFollowLink"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/news": {
+      "get": {
+        "tags": [
+          "Новости"
+        ],
+        "description": "News lists",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsLists"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/news/{id}": {
+      "get": {
+        "tags": [
+          "Новости"
+        ],
+        "description": "News item",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewsItemContent"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/blogs": {
+      "get": {
+        "tags": [
+          "Блог"
+        ],
+        "description": "Blogs lists",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogsLists"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/blogs/{id}": {
+      "get": {
+        "tags": [
+          "Блог"
+        ],
+        "description": "Blogs item content",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlogsContentItem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/lots": {
+      "get": {
+        "tags": [
+          "Лоты"
+        ],
+        "description": "Lots lists",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LotsLists"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/get/lots/{id}": {
+      "get": {
+        "tags": [
+          "Лоты"
+        ],
+        "description": "Lots content item",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LotsContentItem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cabinet/lots/place_bet": {
+      "post": {
+        "tags": [
+          "Лоты пользователей"
+        ],
+        "description": "Задание пользователем своей ставки",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/LotsPlaceBet"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet": {
+      "get": {
+        "tags": [
+          "Личная страница"
+        ],
+        "description": "Личная страница пользователя",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersCabinet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/lots": {
+      "get": {
+        "tags": [
+          "Лоты пользователей"
+        ],
+        "description": "Список лотов пользователя",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersLotsLists"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/lots/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Лоты пользователей"
+        ],
+        "description": "Удаление лота пользователем",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/lots/add": {
+      "get": {
+        "tags": [
+          "Лоты пользователей"
+        ],
+        "description": "Публикация пользователем лота",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Category lists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "Лоты пользователей"
+        ],
+        "description": "Публикация пользователем лота",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UsersLotsFormData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/reviews/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Отзывы"
+        ],
+        "description": "Удаление отзыва пользователем",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/reviews/add": {
+      "post": {
+        "tags": [
+          "Отзывы"
+        ],
+        "description": "Добавить отзыв",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewsAdd"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/notifications": {
+      "get": {
+        "tags": [
+          "Уведомления"
+        ],
+        "description": "Уведомления для пользователя",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notifications"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/notifications/read": {
+      "post": {
+        "tags": [
+          "Уведомления"
+        ],
+        "description": "Пометить уведомление прочитанным после прочтения",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/notifications_read_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/likes": {
+      "get": {
+        "tags": [
+          "Лайки"
+        ],
+        "description": "Получить лайки сущности",
+        "parameters": [
+          {
+            "name": "entity",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LikesGet"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cabinet/dislikes/add": {
+      "get": {
+        "tags": [
+          "Лайки"
+        ],
+        "description": "Передать/Отозвать лайк",
+        "parameters": [
+          {
+            "name": "entity",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LikesGet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cabinet/likes/add": {
+      "get": {
+        "tags": [
+          "Лайки"
+        ],
+        "description": "Передать/Отозвать лайк",
+        "parameters": [
+          {
+            "name": "entity",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LikesGet"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cabinet/chat": {
+      "get": {
+        "tags": [
+          "Чат"
+        ],
+        "description": "Чат сообщений пользователя",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatUsersLists"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/chat/{chat_users}": {
+      "get": {
+        "tags": [
+          "Чат"
+        ],
+        "description": "Чат сообщений пользователя",
+        "parameters": [
+          {
+            "name": "chat_users",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatUsers"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/chat/{chat_users}/add": {
+      "post": {
+        "tags": [
+          "Чат"
+        ],
+        "description": "Сообщение пользователя",
+        "parameters": [
+          {
+            "name": "chat_users",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatUsersFormAdd"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatUsersAdd"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/claims": {
+      "get": {
+        "tags": [
+          "Жалобы"
+        ],
+        "description": "Жалобы",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "current",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Claims"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/claims/add": {
+      "post": {
+        "tags": [
+          "Жалобы"
+        ],
+        "description": "Открыть жалобу или ответить в открытой жалобе",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimsAdd"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/cabinet/claims/delete/{id}": {
+      "delete": {
+        "tags": [
+          "Жалобы"
+        ],
+        "description": "Удалить жалобу. Удалить может тот пользователь который открыл жалобу.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/users/phone_set": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Запрос на смену телефона",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UsersPhone"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ]
+      }
+    },
+    "/users/confirm/{confirm_key}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Users confirm email",
+        "parameters": [
+          {
+            "name": "confirm_key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/forgot": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Users forgot request",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UsersForgotRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/forgot/{confirm_key}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Users forgot confirm",
+        "parameters": [
+          {
+            "name": "confirm_key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Users reset password",
+        "parameters": [
+          {
+            "name": "confirm_key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UsersForgotReset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/signup/{social_key}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "social_key",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "vk",
+                "facebook",
+                "google"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersAuthOk"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/signup": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Users send signup data",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UsersSignUp"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersAuthOk"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/signin": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Users sign in",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UsersSignin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsersAuthOk"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Ok": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": false
+          },
+          "msg": {
+            "type": "string",
+            "default": "Error"
+          }
+        }
+      },
+      "NotFoud": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": false
+          },
+          "msg": {
+            "type": "string",
+            "default": "Not found"
+          }
+        }
+      },
+      "Content": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Content_result"
+          }
+        }
+      },
+      "PagesMenu": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PagesMenuItem"
+            }
+          }
+        }
+      },
+      "PagesMenuItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "parent": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "CategoryLists": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryListsItem"
+            }
+          }
+        }
+      },
+      "CategoryListsItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "parent": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "NewsLists": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "$ref": "#/components/schemas/NewsLists_result"
+          }
+        }
+      },
+      "NewsItemContent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "picture": {
+            "type": "string"
+          },
+          "date_create": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "NewsItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "anons": {
+            "type": "string"
+          },
+          "picture": {
+            "type": "string"
+          },
+          "date_create": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BlogsLists": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/BlogsLists_result"
+          }
+        }
+      },
+      "BlogsContentItem": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/BlogsContentItem_result"
+          }
+        }
+      },
+      "BlogsItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "picture": {
+            "type": "string"
+          },
+          "date_create": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "users": {
+            "$ref": "#/components/schemas/UsersInfo"
+          }
+        }
+      },
+      "Recommendations": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "format": "int64"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LotsItem"
+            }
+          }
+        }
+      },
+      "SearchLists": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "$ref": "#/components/schemas/SearchLists_result"
+          }
+        }
+      },
+      "LotsGetFormData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "specifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LotsSpecifications"
+            }
+          },
+          "picture": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "video": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price_bids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LotsUsersBets"
+            }
+          },
+          "trading_start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trading_end": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "redeemed": {
+            "type": "boolean"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "banned": {
+            "type": "boolean"
+          }
+        }
+      },
+      "LotsSpecifications": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "val": {
+            "type": "string"
+          }
+        }
+      },
+      "LotsUsersBets": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "string"
+          },
+          "bet": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "LotsPlaceBet": {
+        "type": "object",
+        "properties": {
+          "lots": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "bet": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "LotsLists": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/SearchLists_result"
+          }
+        }
+      },
+      "LotsContentItem": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/LotsContentItem_result"
+          }
+        }
+      },
+      "LotsItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "integer"
+          },
+          "picture": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "started": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "users": {
+            "$ref": "#/components/schemas/UsersInfo"
+          }
+        }
+      },
+      "ReviewsAdd": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orders": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "entity": {
+            "type": "string"
+          },
+          "entity_id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "votes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "string"
+          },
+          "picture": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "date_create": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Advertising": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "media": {
+            "type": "string"
+          }
+        }
+      },
+      "AdvertisingFollowLink": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          }
+        }
+      },
+      "UsersLotsFormData": {
+        "required": [
+          "address",
+          "category",
+          "name",
+          "picture",
+          "price",
+          "trading_end",
+          "trading_start"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "category": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "delivery": {
+            "type": "string",
+            "enum": [
+              "other_regions",
+              "only_city"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "specifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsersLotsFormData_specifications"
+            }
+          },
+          "picture": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "binary"
+            }
+          },
+          "video": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "trading_start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trading_end": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Notifications": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Notifications_result"
+            }
+          }
+        }
+      },
+      "DeliveryPrice": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "$ref": "#/components/schemas/DeliveryPrice_result"
+          }
+        }
+      },
+      "DeliveryZone": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeliveryZone_result"
+            }
+          }
+        }
+      },
+      "ChatUsersLists": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatUsersLists_result"
+            }
+          }
+        }
+      },
+      "ChatUsers": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ChatItem"
+            }
+          }
+        }
+      },
+      "ChatItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reply": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "users_to": {
+            "$ref": "#/components/schemas/ChatItem_users_to"
+          },
+          "users_from": {
+            "$ref": "#/components/schemas/ChatItem_users_to"
+          },
+          "message": {
+            "type": "string"
+          },
+          "date_create": {
+            "type": "string"
+          },
+          "read": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ChatUsersAdd": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string"
+          },
+          "result": {
+            "$ref": "#/components/schemas/ChatItem"
+          }
+        }
+      },
+      "ChatUsersFormAdd": {
+        "type": "object",
+        "properties": {
+          "reply": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "user": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "LikesInit": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "OK"
+          },
+          "result": {
+            "$ref": "#/components/schemas/LikesInit_result"
+          }
+        }
+      },
+      "LikesGet": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "OK"
+          },
+          "result": {
+            "$ref": "#/components/schemas/LikesGet_result"
+          }
+        }
+      },
+      "Claims": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "$ref": "#/components/schemas/Claims_result"
+          }
+        }
+      },
+      "ClaimsItem": {
+        "type": "object",
+        "properties": {
+          "lots": {
+            "$ref": "#/components/schemas/LotsItem"
+          },
+          "seller": {
+            "$ref": "#/components/schemas/UsersInfo"
+          },
+          "buyer": {
+            "$ref": "#/components/schemas/UsersInfo"
+          },
+          "claims": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClaimsItem_claims"
+            }
+          }
+        }
+      },
+      "ClaimsAdd": {
+        "type": "object",
+        "properties": {
+          "lots": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "seller": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "buyer": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "picture": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      },
+      "UsersCabinet": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "$ref": "#/components/schemas/UsersCabinet_result"
+          }
+        }
+      },
+      "UsersInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "pricture": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "rating_buyer": {
+            "maximum": 5,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "rating_seller": {
+            "maximum": 5,
+            "minimum": 1,
+            "type": "integer"
+          }
+        }
+      },
+      "UsersLotsLists": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "$ref": "#/components/schemas/UsersLotsLists_result"
+          }
+        }
+      },
+      "UsersLotsItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status_msg": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "integer"
+          },
+          "price_step": {
+            "type": "integer"
+          },
+          "price_bids": {
+            "$ref": "#/components/schemas/UsersLotsItem_price_bids"
+          },
+          "trading_start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trading_end": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "picture": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "started": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "banned": {
+            "type": "boolean"
+          },
+          "banned_msg": {
+            "type": "string"
+          }
+        }
+      },
+      "UsersAuthOk": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "$ref": "#/components/schemas/UsersInfo"
+          }
+        }
+      },
+      "UsersForgotRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "UsersForgotReset": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "format": "password"
+          },
+          "password_confirm": {
+            "type": "string",
+            "format": "password"
+          }
+        }
+      },
+      "UsersPhone": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "phone": {
+            "type": "string"
+          }
+        }
+      },
+      "UsersSignin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        }
+      },
+      "UsersSignUp": {
+        "required": [
+          "email",
+          "name",
+          "password",
+          "password_confirm"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          },
+          "password_confirm": {
+            "type": "string",
+            "format": "password"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "inn": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "price": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/price"
+        }
+      },
+      "period": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/period"
+        }
+      },
+      "users_coordinate": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "description": "широта"
+          },
+          "longitude": {
+            "type": "number",
+            "description": "долгота"
+          }
+        }
+      },
+      "users_coordinate_1": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "description": "широта"
+          },
+          "longitude": {
+            "type": "number",
+            "description": "долгота"
+          }
+        }
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "$ref": "#/components/schemas/CategoryLists"
+          },
+          "data": {
+            "$ref": "#/components/schemas/LotsGetFormData"
+          }
+        }
+      },
+      "notifications_read_body": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "Content_result_modules": {
+        "type": "object",
+        "properties": {
+          "news": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NewsItem"
+            }
+          },
+          "blogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlogsItem"
+            }
+          }
+        },
+        "example": null
+      },
+      "Content_result": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "modules": {
+            "$ref": "#/components/schemas/Content_result_modules"
+          }
+        },
+        "example": null
+      },
+      "NewsLists_result": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NewsItem"
+            }
+          }
+        },
+        "example": null
+      },
+      "BlogsLists_result": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BlogsItem"
+            }
+          }
+        },
+        "example": null
+      },
+      "BlogsContentItem_result": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "picture": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "date_create": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "users": {
+            "$ref": "#/components/schemas/UsersInfo"
+          }
+        },
+        "example": null
+      },
+      "SearchLists_result": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LotsItem"
+            }
+          }
+        },
+        "example": null
+      },
+      "LotsContentItem_result": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "specifications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LotsSpecifications"
+            }
+          },
+          "picture": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "video": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "trading_start": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "trading_end": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "started": {
+            "type": "string"
+          },
+          "redeemed": {
+            "type": "boolean"
+          },
+          "price": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price_step": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price_bids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LotsUsersBets"
+            }
+          },
+          "binds_number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bind_current": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": null
+      },
+      "UsersLotsFormData_specifications": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "val": {
+            "type": "string"
+          }
+        },
+        "example": null
+      },
+      "Notifications_result": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "date_create": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "example": null
+      },
+      "DeliveryPrice_result": {
+        "type": "object",
+        "properties": {
+          "price": {
+            "type": "number"
+          },
+          "city": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "example": null
+      },
+      "DeliveryZone_result": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "city": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "zone": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          }
+        },
+        "example": null
+      },
+      "ChatUsersLists_result": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "unread": {
+            "type": "boolean"
+          }
+        },
+        "example": null
+      },
+      "ChatItem_users_to": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          }
+        },
+        "example": null
+      },
+      "LikesInit_result": {
+        "type": "object",
+        "properties": {
+          "count_likes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "count_dislikes": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "example": null
+      },
+      "LikesGet_result": {
+        "type": "object",
+        "properties": {
+          "count_likes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "count_dislikes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "response_type": {
+            "type": "string",
+            "enum": [
+              "add",
+              "del"
+            ]
+          }
+        },
+        "example": null
+      },
+      "Claims_result": {
+        "type": "object",
+        "properties": {
+          "total_items": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ClaimsItem"
+            }
+          }
+        },
+        "example": null
+      },
+      "ClaimsItem_claims": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "seller": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "buyer": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "manager": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "picture": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "date_create": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "example": null
+      },
+      "UsersCabinet_result_analytics": {
+        "type": "object",
+        "properties": {
+          "amount_sales": {
+            "type": "integer",
+            "description": "Сумма продаж"
+          },
+          "amount_purchase": {
+            "type": "integer",
+            "description": "Сумма покупок"
+          }
+        },
+        "example": null
+      },
+      "UsersCabinet_result": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Идентификатор пользователя",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "description": "Тип пользователя",
+            "default": "user",
+            "enum": [
+              "user",
+              "organization"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Имя пользователя"
+          },
+          "picture": {
+            "type": "string",
+            "description": "Фото пользователя"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email пользователя",
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Телефон пользователя"
+          },
+          "inn": {
+            "type": "integer",
+            "description": "ИНН"
+          },
+          "rating_buyer": {
+            "maximum": 5,
+            "minimum": 0,
+            "type": "integer",
+            "description": "Рейтинг покупателя",
+            "format": "int32"
+          },
+          "rating_seller": {
+            "maximum": 5,
+            "minimum": 0,
+            "type": "integer",
+            "description": "Рейтинг продавца",
+            "format": "int32"
+          },
+          "analytics": {
+            "$ref": "#/components/schemas/UsersCabinet_result_analytics"
+          }
+        },
+        "example": null
+      },
+      "UsersLotsLists_result": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "current": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsersLotsItem"
+            }
+          }
+        },
+        "example": null
+      },
+      "UsersLotsItem_price_bids": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "$ref": "#/components/schemas/UsersInfo"
+          },
+          "bet": {
+            "type": "number"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "example": null
+      }
+    },
+    "securitySchemes": {
+      "sessionsAuth": {
+        "type": "apiKey",
+        "name": "SESSIONID",
+        "in": "cookie"
+      }
+    }
+  }
+}
