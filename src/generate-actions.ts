@@ -40,7 +40,7 @@ function generateActions(paths: Paths, schemas: Schemas) {
 
       lines.push(`\n`)
       lines.push(`export const ${pathMethod}${action} = (${argsString}): ${returnType} => ({\n`)
-      lines.push(`  method: "${pathMethod}",\n`)
+      lines.push(`  method: "${pathMethod.toUpperCase()}",\n`)
       lines.push(`  endpoint: \`${path.replace(/{/g, "${")}\``)
       if (paramsString.length > 0) {
         lines.push(`,\n  params: { ${paramsString} }`)
