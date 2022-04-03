@@ -39,7 +39,12 @@ function generateActions(paths: Paths) {
       const payload = okCode && getSchemaType(pathContent.responses[okCode].content["application/json"].schema)
       const returnType = payload ? `Action<${payload}>` : "Action"
 
+      const description = pathContent.description || ""
+
       lines.push(`\n`)
+      lines.push(`/**\n`)
+      lines.push(` * ${description}\n`)
+      lines.push(` */\n`)
       lines.push(`export const ${pathMethod}${action} = (${argsString}${requestBodyType ? `${argsString.length ? ", " : ""}body: ${requestBodyType}` : ""}): ${returnType} => ({\n`)
       lines.push(`  method: "${pathMethod.toUpperCase()}",\n`)
       lines.push(`  endpoint: \`${path.replace(/{/g, "${")}\``)
