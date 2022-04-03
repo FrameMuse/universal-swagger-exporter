@@ -1,6 +1,6 @@
 # swagger-export-rfl
 
-Automated script | Swagger export to react-fetching-library actions
+Automated script | [Swagger](https://swagger.io/) export to [react-fetching-library](https://github.com/marcin-piela/react-fetching-library) actions
 
 ## Setup
 
