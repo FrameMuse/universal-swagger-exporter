@@ -1,5 +1,19 @@
 {
   "openapi": "3.0.1",
+  "info": {
+    "title": "Etuuk API",
+    "description": "API Etuuk.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "description": "Etuuk API",
+      "url": "https://virtserver.swaggerhub.com/njwya/Etuuk/1.0.0"
+    },
+    {
+      "url": "https://etuuk.promositetest.ru/"
+    }
+  ],
   "paths": {
     "/get/pages/{pages_id}": {
       "get": {
@@ -12,8 +26,6 @@
             "name": "pages_id",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -55,8 +67,6 @@
             "name": "url",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             }
@@ -117,8 +127,6 @@
             "name": "pages_id",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -149,22 +157,26 @@
           {
             "name": "price",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/price"
+                "type": "object",
+                "properties": {
+                  "min": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "max": {
+                    "type": "integer",
+                    "format": "int32"
+                  }
+                }
               }
             }
           },
           {
             "name": "category",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "array",
               "items": {
@@ -175,9 +187,6 @@
           {
             "name": "seller_type",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string",
               "default": "all",
@@ -191,9 +200,6 @@
           {
             "name": "delivery",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string",
               "default": "all",
@@ -207,22 +213,26 @@
           {
             "name": "period",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/period"
+                "type": "object",
+                "properties": {
+                  "date_start": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "date_end": {
+                    "type": "string",
+                    "format": "date-time"
+                  }
+                }
               }
             }
           },
           {
             "name": "started",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -283,9 +293,6 @@
           {
             "name": "s",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string"
             }
@@ -293,9 +300,6 @@
           {
             "name": "limit",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -304,9 +308,6 @@
           {
             "name": "current",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -367,11 +368,18 @@
           {
             "name": "users_coordinate",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
-              "$ref": "#/components/schemas/users_coordinate"
+              "type": "object",
+              "properties": {
+                "latitude": {
+                  "type": "number",
+                  "description": "широта"
+                },
+                "longitude": {
+                  "type": "number",
+                  "description": "долгота"
+                }
+              }
             }
           }
         ],
@@ -409,19 +417,23 @@
           {
             "name": "users_coordinate",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
-              "$ref": "#/components/schemas/users_coordinate_1"
+              "type": "object",
+              "properties": {
+                "latitude": {
+                  "type": "number",
+                  "description": "широта"
+                },
+                "longitude": {
+                  "type": "number",
+                  "description": "долгота"
+                }
+              }
             }
           },
           {
             "name": "city",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string"
             }
@@ -482,8 +494,6 @@
             "name": "uid",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -534,9 +544,6 @@
           {
             "name": "limit",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -545,9 +552,6 @@
           {
             "name": "current",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -579,8 +583,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -621,9 +623,6 @@
           {
             "name": "limit",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -632,9 +631,6 @@
           {
             "name": "current",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -676,8 +672,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -718,9 +712,6 @@
           {
             "name": "limit",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -729,9 +720,6 @@
           {
             "name": "current",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -773,8 +761,6 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -811,6 +797,11 @@
           "Лоты пользователей"
         ],
         "description": "Задание пользователем своей ставки",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -841,12 +832,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet": {
@@ -855,6 +841,11 @@
           "Личная страница"
         ],
         "description": "Личная страница пользователя",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Ok",
@@ -876,12 +867,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/lots": {
@@ -889,14 +875,16 @@
         "tags": [
           "Лоты пользователей"
         ],
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "description": "Список лотов пользователя",
         "parameters": [
           {
             "name": "limit",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -905,9 +893,6 @@
           {
             "name": "current",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -916,9 +901,6 @@
           {
             "name": "status",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -936,12 +918,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/lots/delete/{id}": {
@@ -949,14 +926,17 @@
         "tags": [
           "Лоты пользователей"
         ],
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "description": "Удаление лота пользователем",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -994,12 +974,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/lots/add": {
@@ -1008,13 +983,15 @@
           "Лоты пользователей"
         ],
         "description": "Публикация пользователем лота",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer"
             }
@@ -1026,23 +1003,31 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/inline_response_200"
+                  "type": "object",
+                  "properties": {
+                    "category": {
+                      "$ref": "#/components/schemas/CategoryLists"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/LotsGetFormData"
+                    }
+                  }
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
           "Лоты пользователей"
         ],
         "description": "Публикация пользователем лота",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -1083,12 +1068,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/reviews/delete/{id}": {
@@ -1096,14 +1076,17 @@
         "tags": [
           "Отзывы"
         ],
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "description": "Удаление отзыва пользователем",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1141,18 +1124,18 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/reviews/add": {
       "post": {
         "tags": [
           "Отзывы"
+        ],
+        "security": [
+          {
+            "sessionsAuth": []
+          }
         ],
         "description": "Добавить отзыв",
         "requestBody": {
@@ -1195,18 +1178,18 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/notifications": {
       "get": {
         "tags": [
           "Уведомления"
+        ],
+        "security": [
+          {
+            "sessionsAuth": []
+          }
         ],
         "description": "Уведомления для пользователя",
         "responses": {
@@ -1220,12 +1203,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/notifications/read": {
@@ -1233,12 +1211,23 @@
         "tags": [
           "Уведомления"
         ],
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "description": "Пометить уведомление прочитанным после прочтения",
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/notifications_read_body"
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
               }
             }
           }
@@ -1264,12 +1253,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/likes": {
@@ -1283,8 +1267,6 @@
             "name": "entity",
             "in": "query",
             "required": true,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string"
             }
@@ -1293,8 +1275,6 @@
             "name": "id",
             "in": "query",
             "required": true,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1336,8 +1316,6 @@
             "name": "entity",
             "in": "query",
             "required": true,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string"
             }
@@ -1346,8 +1324,6 @@
             "name": "id",
             "in": "query",
             "required": true,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1389,8 +1365,6 @@
             "name": "entity",
             "in": "query",
             "required": true,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string"
             }
@@ -1399,8 +1373,6 @@
             "name": "id",
             "in": "query",
             "required": true,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1437,13 +1409,15 @@
           "Чат"
         ],
         "description": "Чат сообщений пользователя",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "limit",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1452,9 +1426,6 @@
           {
             "name": "current",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1472,12 +1443,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/chat/{chat_users}": {
@@ -1486,13 +1452,16 @@
           "Чат"
         ],
         "description": "Чат сообщений пользователя",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "chat_users",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1501,9 +1470,6 @@
           {
             "name": "limit",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1512,9 +1478,6 @@
           {
             "name": "current",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1532,12 +1495,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/chat/{chat_users}/add": {
@@ -1546,13 +1504,16 @@
           "Чат"
         ],
         "description": "Сообщение пользователя",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "chat_users",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1589,12 +1550,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/claims": {
@@ -1602,14 +1558,16 @@
         "tags": [
           "Жалобы"
         ],
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "description": "Жалобы",
         "parameters": [
           {
             "name": "limit",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1618,9 +1576,6 @@
           {
             "name": "current",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1638,18 +1593,18 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/claims/add": {
       "post": {
         "tags": [
           "Жалобы"
+        ],
+        "security": [
+          {
+            "sessionsAuth": []
+          }
         ],
         "description": "Открыть жалобу или ответить в открытой жалобе",
         "requestBody": {
@@ -1692,12 +1647,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/cabinet/claims/delete/{id}": {
@@ -1705,14 +1655,17 @@
         "tags": [
           "Жалобы"
         ],
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "description": "Удалить жалобу. Удалить может тот пользователь который открыл жалобу.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "integer",
               "format": "int64"
@@ -1750,12 +1703,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/users/phone_set": {
@@ -1764,6 +1712,11 @@
           "Users"
         ],
         "description": "Запрос на смену телефона",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -1804,12 +1757,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "sessionsAuth": []
-          }
-        ]
+        }
       }
     },
     "/users/confirm/{confirm_key}": {
@@ -1823,8 +1771,6 @@
             "name": "confirm_key",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             }
@@ -1914,6 +1860,53 @@
       }
     },
     "/users/forgot/{confirm_key}": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "description": "Users reset password",
+        "parameters": [
+          {
+            "name": "confirm_key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UsersForgotReset"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Ok"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
       "get": {
         "tags": [
           "Users"
@@ -1924,8 +1917,6 @@
             "name": "confirm_key",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             }
@@ -1963,55 +1954,6 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "description": "Users reset password",
-        "parameters": [
-          {
-            "name": "confirm_key",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/UsersForgotReset"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Ok"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/users/signup/{social_key}": {
@@ -2024,8 +1966,6 @@
             "name": "social_key",
             "in": "path",
             "required": true,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string",
               "enum": [
@@ -2212,7 +2152,38 @@
             "default": "Ok"
           },
           "result": {
-            "$ref": "#/components/schemas/Content_result"
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "keywords": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "modules": {
+                "type": "object",
+                "properties": {
+                  "news": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/NewsItem"
+                    }
+                  },
+                  "blogs": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/BlogsItem"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -2305,7 +2276,23 @@
             "default": "Ok"
           },
           "result": {
-            "$ref": "#/components/schemas/NewsLists_result"
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "current": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/NewsItem"
+                }
+              }
+            }
           }
         }
       },
@@ -2364,7 +2351,23 @@
             "type": "string"
           },
           "result": {
-            "$ref": "#/components/schemas/BlogsLists_result"
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "current": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/BlogsItem"
+                }
+              }
+            }
           }
         }
       },
@@ -2379,7 +2382,28 @@
             "type": "string"
           },
           "result": {
-            "$ref": "#/components/schemas/BlogsContentItem_result"
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "picture": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "date_create": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "users": {
+                "$ref": "#/components/schemas/UsersInfo"
+              }
+            }
           }
         }
       },
@@ -2435,7 +2459,23 @@
             "default": "Ok"
           },
           "result": {
-            "$ref": "#/components/schemas/SearchLists_result"
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "current": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/LotsItem"
+                }
+              }
+            }
           }
         }
       },
@@ -2554,7 +2594,23 @@
             "type": "string"
           },
           "result": {
-            "$ref": "#/components/schemas/SearchLists_result"
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "current": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/LotsItem"
+                }
+              }
+            }
           }
         }
       },
@@ -2569,7 +2625,69 @@
             "type": "string"
           },
           "result": {
-            "$ref": "#/components/schemas/LotsContentItem_result"
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "specifications": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/LotsSpecifications"
+                }
+              },
+              "picture": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "video": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "trading_start": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "trading_end": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "started": {
+                "type": "string"
+              },
+              "redeemed": {
+                "type": "boolean"
+              },
+              "price": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "price_step": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "price_bids": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/LotsUsersBets"
+                }
+              },
+              "binds_number": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "bind_current": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
           }
         }
       },
@@ -2668,16 +2786,16 @@
         }
       },
       "UsersLotsFormData": {
+        "type": "object",
         "required": [
-          "address",
           "category",
           "name",
           "picture",
+          "address",
           "price",
-          "trading_end",
-          "trading_start"
+          "trading_start",
+          "trading_end"
         ],
-        "type": "object",
         "properties": {
           "id": {
             "type": "integer",
@@ -2703,7 +2821,15 @@
           "specifications": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/UsersLotsFormData_specifications"
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "val": {
+                  "type": "string"
+                }
+              }
             }
           },
           "picture": {
@@ -2746,7 +2872,23 @@
           "result": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Notifications_result"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "date_create": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
             }
           }
         }
@@ -2763,7 +2905,18 @@
             "default": "Ok"
           },
           "result": {
-            "$ref": "#/components/schemas/DeliveryPrice_result"
+            "type": "object",
+            "properties": {
+              "price": {
+                "type": "number"
+              },
+              "city": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
           }
         }
       },
@@ -2780,7 +2933,28 @@
           "result": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/DeliveryZone_result"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int32"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "number"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "zone": {
+                  "type": "string"
+                },
+                "color": {
+                  "type": "string"
+                }
+              }
             }
           }
         }
@@ -2798,7 +2972,19 @@
           "result": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ChatUsersLists_result"
+              "type": "object",
+              "properties": {
+                "users": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "avatar": {
+                  "type": "string"
+                },
+                "unread": {
+                  "type": "boolean"
+                }
+              }
             }
           }
         }
@@ -2833,10 +3019,34 @@
             "format": "int64"
           },
           "users_to": {
-            "$ref": "#/components/schemas/ChatItem_users_to"
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "name": {
+                "type": "string"
+              },
+              "avatar": {
+                "type": "string"
+              }
+            }
           },
           "users_from": {
-            "$ref": "#/components/schemas/ChatItem_users_to"
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "name": {
+                "type": "string"
+              },
+              "avatar": {
+                "type": "string"
+              }
+            }
           },
           "message": {
             "type": "string"
@@ -2892,7 +3102,17 @@
             "default": "OK"
           },
           "result": {
-            "$ref": "#/components/schemas/LikesInit_result"
+            "type": "object",
+            "properties": {
+              "count_likes": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "count_dislikes": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
           }
         }
       },
@@ -2908,7 +3128,24 @@
             "default": "OK"
           },
           "result": {
-            "$ref": "#/components/schemas/LikesGet_result"
+            "type": "object",
+            "properties": {
+              "count_likes": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "count_dislikes": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "response_type": {
+                "type": "string",
+                "enum": [
+                  "add",
+                  "del"
+                ]
+              }
+            }
           }
         }
       },
@@ -2924,7 +3161,23 @@
             "default": "Ok"
           },
           "result": {
-            "$ref": "#/components/schemas/Claims_result"
+            "type": "object",
+            "properties": {
+              "total_items": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "limit": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ClaimsItem"
+                }
+              }
+            }
           }
         }
       },
@@ -2943,7 +3196,41 @@
           "claims": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ClaimsItem_claims"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "seller": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "buyer": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "manager": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "picture": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "date_create": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
             }
           }
         }
@@ -2990,7 +3277,71 @@
             "default": "Ok"
           },
           "result": {
-            "$ref": "#/components/schemas/UsersCabinet_result"
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "format": "int64",
+                "description": "Идентификатор пользователя"
+              },
+              "type": {
+                "type": "string",
+                "default": "user",
+                "description": "Тип пользователя",
+                "enum": [
+                  "user",
+                  "organization"
+                ]
+              },
+              "name": {
+                "type": "string",
+                "description": "Имя пользователя"
+              },
+              "picture": {
+                "type": "string",
+                "description": "Фото пользователя"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "Email пользователя"
+              },
+              "phone": {
+                "type": "string",
+                "description": "Телефон пользователя"
+              },
+              "inn": {
+                "type": "integer",
+                "description": "ИНН"
+              },
+              "rating_buyer": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 5,
+                "description": "Рейтинг покупателя"
+              },
+              "rating_seller": {
+                "type": "integer",
+                "format": "int32",
+                "minimum": 0,
+                "maximum": 5,
+                "description": "Рейтинг продавца"
+              },
+              "analytics": {
+                "type": "object",
+                "properties": {
+                  "amount_sales": {
+                    "type": "integer",
+                    "description": "Сумма продаж"
+                  },
+                  "amount_purchase": {
+                    "type": "integer",
+                    "description": "Сумма покупок"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -3011,14 +3362,14 @@
             "type": "string"
           },
           "rating_buyer": {
-            "maximum": 5,
+            "type": "integer",
             "minimum": 1,
-            "type": "integer"
+            "maximum": 5
           },
           "rating_seller": {
-            "maximum": 5,
+            "type": "integer",
             "minimum": 1,
-            "type": "integer"
+            "maximum": 5
           }
         }
       },
@@ -3034,7 +3385,23 @@
             "default": "Ok"
           },
           "result": {
-            "$ref": "#/components/schemas/UsersLotsLists_result"
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "current": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/UsersLotsItem"
+                }
+              }
+            }
           }
         }
       },
@@ -3062,7 +3429,19 @@
             "type": "integer"
           },
           "price_bids": {
-            "$ref": "#/components/schemas/UsersLotsItem_price_bids"
+            "type": "object",
+            "properties": {
+              "users": {
+                "$ref": "#/components/schemas/UsersInfo"
+              },
+              "bet": {
+                "type": "number"
+              },
+              "date": {
+                "type": "string",
+                "format": "date-time"
+              }
+            }
           },
           "trading_start": {
             "type": "string",
@@ -3157,13 +3536,13 @@
         }
       },
       "UsersSignUp": {
+        "type": "object",
         "required": [
           "email",
-          "name",
           "password",
-          "password_confirm"
+          "password_confirm",
+          "name"
         ],
-        "type": "object",
         "properties": {
           "email": {
             "type": "string",
@@ -3187,566 +3566,13 @@
             "type": "string"
           }
         }
-      },
-      "price": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/price"
-        }
-      },
-      "period": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/period"
-        }
-      },
-      "users_coordinate": {
-        "type": "object",
-        "properties": {
-          "latitude": {
-            "type": "number",
-            "description": "широта"
-          },
-          "longitude": {
-            "type": "number",
-            "description": "долгота"
-          }
-        }
-      },
-      "users_coordinate_1": {
-        "type": "object",
-        "properties": {
-          "latitude": {
-            "type": "number",
-            "description": "широта"
-          },
-          "longitude": {
-            "type": "number",
-            "description": "долгота"
-          }
-        }
-      },
-      "inline_response_200": {
-        "type": "object",
-        "properties": {
-          "category": {
-            "$ref": "#/components/schemas/CategoryLists"
-          },
-          "data": {
-            "$ref": "#/components/schemas/LotsGetFormData"
-          }
-        }
-      },
-      "notifications_read_body": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "Content_result_modules": {
-        "type": "object",
-        "properties": {
-          "news": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NewsItem"
-            }
-          },
-          "blogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BlogsItem"
-            }
-          }
-        },
-        "example": null
-      },
-      "Content_result": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "keywords": {
-            "type": "string"
-          },
-          "content": {
-            "type": "string"
-          },
-          "modules": {
-            "$ref": "#/components/schemas/Content_result_modules"
-          }
-        },
-        "example": null
-      },
-      "NewsLists_result": {
-        "type": "object",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "current": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/NewsItem"
-            }
-          }
-        },
-        "example": null
-      },
-      "BlogsLists_result": {
-        "type": "object",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "current": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BlogsItem"
-            }
-          }
-        },
-        "example": null
-      },
-      "BlogsContentItem_result": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "content": {
-            "type": "string"
-          },
-          "picture": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "date_create": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "users": {
-            "$ref": "#/components/schemas/UsersInfo"
-          }
-        },
-        "example": null
-      },
-      "SearchLists_result": {
-        "type": "object",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "current": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LotsItem"
-            }
-          }
-        },
-        "example": null
-      },
-      "LotsContentItem_result": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "content": {
-            "type": "string"
-          },
-          "specifications": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LotsSpecifications"
-            }
-          },
-          "picture": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "video": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "trading_start": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "trading_end": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "started": {
-            "type": "string"
-          },
-          "redeemed": {
-            "type": "boolean"
-          },
-          "price": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "price_step": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "price_bids": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/LotsUsersBets"
-            }
-          },
-          "binds_number": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "bind_current": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "example": null
-      },
-      "UsersLotsFormData_specifications": {
-        "type": "object",
-        "properties": {
-          "key": {
-            "type": "string"
-          },
-          "val": {
-            "type": "string"
-          }
-        },
-        "example": null
-      },
-      "Notifications_result": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "type": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          },
-          "date_create": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "example": null
-      },
-      "DeliveryPrice_result": {
-        "type": "object",
-        "properties": {
-          "price": {
-            "type": "number"
-          },
-          "city": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          }
-        },
-        "example": null
-      },
-      "DeliveryZone_result": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "city": {
-            "type": "string"
-          },
-          "price": {
-            "type": "number"
-          },
-          "description": {
-            "type": "string"
-          },
-          "zone": {
-            "type": "string"
-          },
-          "color": {
-            "type": "string"
-          }
-        },
-        "example": null
-      },
-      "ChatUsersLists_result": {
-        "type": "object",
-        "properties": {
-          "users": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "avatar": {
-            "type": "string"
-          },
-          "unread": {
-            "type": "boolean"
-          }
-        },
-        "example": null
-      },
-      "ChatItem_users_to": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "avatar": {
-            "type": "string"
-          }
-        },
-        "example": null
-      },
-      "LikesInit_result": {
-        "type": "object",
-        "properties": {
-          "count_likes": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "count_dislikes": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "example": null
-      },
-      "LikesGet_result": {
-        "type": "object",
-        "properties": {
-          "count_likes": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "count_dislikes": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "response_type": {
-            "type": "string",
-            "enum": [
-              "add",
-              "del"
-            ]
-          }
-        },
-        "example": null
-      },
-      "Claims_result": {
-        "type": "object",
-        "properties": {
-          "total_items": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "limit": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ClaimsItem"
-            }
-          }
-        },
-        "example": null
-      },
-      "ClaimsItem_claims": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "seller": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "buyer": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "manager": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "content": {
-            "type": "string"
-          },
-          "picture": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "date_create": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "example": null
-      },
-      "UsersCabinet_result_analytics": {
-        "type": "object",
-        "properties": {
-          "amount_sales": {
-            "type": "integer",
-            "description": "Сумма продаж"
-          },
-          "amount_purchase": {
-            "type": "integer",
-            "description": "Сумма покупок"
-          }
-        },
-        "example": null
-      },
-      "UsersCabinet_result": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Идентификатор пользователя",
-            "format": "int64"
-          },
-          "type": {
-            "type": "string",
-            "description": "Тип пользователя",
-            "default": "user",
-            "enum": [
-              "user",
-              "organization"
-            ]
-          },
-          "name": {
-            "type": "string",
-            "description": "Имя пользователя"
-          },
-          "picture": {
-            "type": "string",
-            "description": "Фото пользователя"
-          },
-          "email": {
-            "type": "string",
-            "description": "Email пользователя",
-            "format": "email"
-          },
-          "phone": {
-            "type": "string",
-            "description": "Телефон пользователя"
-          },
-          "inn": {
-            "type": "integer",
-            "description": "ИНН"
-          },
-          "rating_buyer": {
-            "maximum": 5,
-            "minimum": 0,
-            "type": "integer",
-            "description": "Рейтинг покупателя",
-            "format": "int32"
-          },
-          "rating_seller": {
-            "maximum": 5,
-            "minimum": 0,
-            "type": "integer",
-            "description": "Рейтинг продавца",
-            "format": "int32"
-          },
-          "analytics": {
-            "$ref": "#/components/schemas/UsersCabinet_result_analytics"
-          }
-        },
-        "example": null
-      },
-      "UsersLotsLists_result": {
-        "type": "object",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "current": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UsersLotsItem"
-            }
-          }
-        },
-        "example": null
-      },
-      "UsersLotsItem_price_bids": {
-        "type": "object",
-        "properties": {
-          "users": {
-            "$ref": "#/components/schemas/UsersInfo"
-          },
-          "bet": {
-            "type": "number"
-          },
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "example": null
       }
     },
     "securitySchemes": {
       "sessionsAuth": {
         "type": "apiKey",
-        "name": "SESSIONID",
-        "in": "cookie"
+        "in": "cookie",
+        "name": "SESSIONID"
       }
     }
   }
