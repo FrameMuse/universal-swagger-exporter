@@ -26,7 +26,7 @@ export function getSchemaType(scheme: Schema): string {
     // @ts-expect-error
     case "string":
       if (scheme.enum) {
-        return scheme.enum.map(element => `"${element}"`).join(" | ") + (scheme.default ? ` = "${scheme.default}"` : "")
+        return scheme.enum.map(element => `"${element}"`).join(" | ")
       }
     // Intentional fallthrough
     default: {
