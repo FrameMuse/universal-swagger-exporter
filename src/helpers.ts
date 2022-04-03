@@ -13,7 +13,7 @@ export function getSchemaType(scheme: Schema) {
   switch (scheme.type) {
     case "array": {
       if (scheme.items.type) {
-        return scheme.items.type.replace("integer", "number")
+        return scheme.items.type.replace("integer", "number") + "[]"
       }
       return deRefSchemaType(scheme.items.$ref) + "[]"
     }
