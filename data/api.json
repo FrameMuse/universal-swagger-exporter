@@ -1,19 +1,5 @@
 {
   "openapi": "3.0.1",
-  "info": {
-    "title": "Etuuk API",
-    "description": "API Etuuk.",
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "description": "Etuuk API",
-      "url": "https://virtserver.swaggerhub.com/njwya/Etuuk/1.0.0"
-    },
-    {
-      "url": "https://etuuk.promositetest.ru/"
-    }
-  ],
   "paths": {
     "/get/pages/{pages_id}": {
       "get": {
@@ -152,7 +138,7 @@
         "tags": [
           "Содержание"
         ],
-        "description": "фильтрации по категориям/подкатегориям/цене",
+        "description": "Вывод лотов из выбранных параметров",
         "parameters": [
           {
             "name": "price",
@@ -1256,12 +1242,141 @@
         }
       }
     },
+    "/cabinet/favorite": {
+      "get": {
+        "tags": [
+          "Избранное"
+        ],
+        "description": "Вывод списка лотов, которые находятся в избранном пользователя",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FavoriteList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cabinet/favorite/users": {
+      "get": {
+        "tags": [
+          "Избранное"
+        ],
+        "description": "Вывод списка лотов, которые находятся в избранном пользователя",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FavoriteUsers"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cabinet/favorite/add": {
+      "put": {
+        "tags": [
+          "Избранное"
+        ],
+        "description": "Добавить Лот в избранное. Если он там уже есть, то лот удаляется.",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Favorite"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FavoriteAddResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoud"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/cabinet/likes": {
       "get": {
         "tags": [
           "Лайки"
         ],
         "description": "Получить лайки сущности",
+        "security": [
+          {
+            "sessionsAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "entity",
@@ -1306,30 +1421,25 @@
       }
     },
     "/cabinet/dislikes/add": {
-      "get": {
+      "post": {
         "tags": [
           "Лайки"
         ],
         "description": "Передать/Отозвать лайк",
-        "parameters": [
+        "security": [
           {
-            "name": "entity",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
+            "sessionsAuth": []
           }
         ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Likes"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Ok",
@@ -1355,30 +1465,25 @@
       }
     },
     "/cabinet/likes/add": {
-      "get": {
+      "post": {
         "tags": [
           "Лайки"
         ],
         "description": "Передать/Отозвать лайк",
-        "parameters": [
+        "security": [
           {
-            "name": "entity",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
+            "sessionsAuth": []
           }
         ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Likes"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Ok",
@@ -2479,6 +2584,100 @@
           }
         }
       },
+      "Favorite": {
+        "type": "object",
+        "properties": {
+          "lots": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "FavoriteAddResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "type": "string",
+            "default": "add",
+            "enum": [
+              "add",
+              "delete"
+            ]
+          }
+        }
+      },
+      "FavoriteUsers": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
+      },
+      "FavoriteList": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "default": true
+          },
+          "msg": {
+            "type": "string",
+            "default": "Ok"
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "limit": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "current": {
+                "type": "integer",
+                "format": "int32"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/LotsItem"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Likes": {
+        "type": "object",
+        "properties": {
+          "entity": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
       "LotsGetFormData": {
         "type": "object",
         "properties": {
@@ -2557,16 +2756,23 @@
       "LotsUsersBets": {
         "type": "object",
         "properties": {
+          "uid": {
+            "type": "integer",
+            "description": "Идентификатор пользователя"
+          },
           "users": {
-            "type": "string"
+            "type": "string",
+            "description": "Имя пользователя"
           },
           "bet": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "Ставка"
           },
           "date": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "Дата"
           }
         }
       },
@@ -2651,6 +2857,13 @@
               "address": {
                 "type": "string"
               },
+              "delivery": {
+                "type": "string",
+                "enum": [
+                  "other_regions",
+                  "only_city"
+                ]
+              },
               "trading_start": {
                 "type": "string",
                 "format": "date-time"
@@ -2681,11 +2894,55 @@
               },
               "binds_number": {
                 "type": "integer",
-                "format": "int32"
+                "format": "int32",
+                "description": "Количество ставок"
               },
               "bind_current": {
                 "type": "integer",
-                "format": "int32"
+                "format": "int32,",
+                "description": "Текущая ставка"
+              },
+              "users_info": {
+                "type": "object",
+                "default": "Информация о покупателе",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "идентификатор"
+                  },
+                  "name": {
+                    "type": "string",
+                    "default": "Имя пользователя"
+                  },
+                  "type": {
+                    "type": "string",
+                    "default": "user",
+                    "description": "Тип пользователя",
+                    "enum": [
+                      "organization",
+                      "user"
+                    ]
+                  },
+                  "reviews": {
+                    "type": "object",
+                    "description": "Отзывы",
+                    "properties": {
+                      "likes": {
+                        "type": "integer"
+                      },
+                      "dislikes": {
+                        "type": "integer"
+                      }
+                    }
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 5,
+                    "description": "Рейтинг"
+                  }
+                }
               }
             }
           }
@@ -2710,12 +2967,16 @@
           "address": {
             "type": "string"
           },
-          "started": {
+          "delivery": {
+            "type": "string",
+            "enum": [
+              "other_regions",
+              "only_city"
+            ]
+          },
+          "trading_start": {
             "type": "string",
             "format": "date-time"
-          },
-          "users": {
-            "$ref": "#/components/schemas/UsersInfo"
           }
         }
       },
@@ -3355,10 +3616,15 @@
           "name": {
             "type": "string"
           },
-          "pricture": {
-            "type": "string"
+          "type": {
+            "type": "string",
+            "default": "user",
+            "enum": [
+              "organization",
+              "user"
+            ]
           },
-          "address": {
+          "pricture": {
             "type": "string"
           },
           "rating_buyer": {
