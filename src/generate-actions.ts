@@ -11,8 +11,13 @@ function generateActions(paths: Paths) {
       const pathContentRequestBody = pathContent.requestBody
       const pathContentResponseCodes = Object.keys(pathContent.responses)
 
+
       const requestBody = pathContentRequestBody?.content["multipart/form-data"]
-      const requestBodyType = requestBody && getSchemaType(requestBody.schema)
+
+      const requestBodyFallbackKey = pathContentRequestBody?.content && Object.keys(pathContentRequestBody?.content).find(key => key.includes("json"))
+      const requestBodyFallback = requestBodyFallbackKey ? pathContentRequestBody?.content?.[requestBodyFallbackKey] : undefined
+
+      const requestBodyType = (requestBody && getSchemaType(requestBody.schema)) || (requestBodyFallback && getSchemaType(requestBodyFallback.schema))
 
       const args: ActionArgs = reduceParameters(pathContentParameters)
       const argsString = joinArgs(args)
