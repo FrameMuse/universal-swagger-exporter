@@ -1,5 +1,5 @@
 import fs from "fs"
-import { Paths, Schemas } from "./types"
+
 import generateActions from "./generate-actions"
 import generateSchemas, { generateSchemasImports } from "./generate-schemas"
 import { Paths, Schemas } from "./types"
