@@ -1,42 +1,49 @@
-import { Schema } from "./types"
+import { ActionArgs, Parameter, Schema } from "./types"
 
 export function deRefSchemaType(ref?: string) {
   if (ref == null) return ""
   // `#/components/schemas/` has 21 chars
   return "Schema" + formatString(ref.slice(21))
 }
-export function getSchemaType(scheme: Schema): string {
-  switch (scheme.type) {
-    case "array": {
-      if (scheme.items.type) {
-        return getSchemaType(scheme.items) + "[]"
+export function getSchemaType(schema: Schema): string {
+  function getType() {
+    switch (schema.type) {
+      case "array": {
+        if (schema.items == null) {
+          return schema.type
+        }
+        return getSchemaType(schema.items) + "[]"
       }
-      return deRefSchemaType(scheme.items.$ref) + "[]"
-    }
 
-    case "object": {
-      if (scheme.properties) {
-        return reduceProperties(scheme.properties, scheme.required)
+      case "object": {
+        if (schema.properties == null) {
+          return schema.type
+        }
+        return reduceProperties(schema.properties, schema.required)
       }
-      if (scheme.$ref) {
-        return deRefSchemaType(scheme.$ref)
-      }
-      return scheme.type
-    }
 
-    // @ts-expect-error
-    case "string":
-      if (scheme.enum) {
-        return scheme.enum.map(element => `"${element}"`).join(" | ")
+      default: {
+        if (schema.type) {
+          return schema.type.replace("integer", "number")
+        }
+        // If has allOf, this is an array
+        if (schema.allOf) {
+          return schema.allOf.map(getSchemaType).join(" & ")
+        }
+        // If has enum, this is a string
+        if (schema.enum) {
+          return schema.enum.map(element => `"${element}"`).join(" | ")
+        }
+        return deRefSchemaType(schema.$ref)
       }
-    // Intentional fallthrough
-    default: {
-      if (scheme.type) {
-        return scheme.type.replace("integer", "number")
-      }
-      return deRefSchemaType(scheme.$ref)
     }
   }
+  const schemaType = getType()
+  // Post processing
+  if (schema.nullable) {
+    return `${schemaType} | null`
+  }
+  return schemaType
 }
 
 export function reduceProperties(props?: Record<string, Schema>, required?: string[]): string {
