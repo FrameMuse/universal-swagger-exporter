@@ -27,9 +27,16 @@ function generateActions(paths: Paths) {
         .replace(/\//g, "")
         .replace(/_(\w)/g, (_, g) => String(g).toUpperCase())
 
+
+
       const okCode = pathContentResponseCodes.find(code => Number(code) >= 200 && Number(code) < 300)
-      const payload = okCode && getSchemaType(pathContent.responses[okCode].content["application/json"].schema)
-      const returnType = payload ? `Action<${payload}>` : "Action"
+      const okContent = okCode ? pathContent.responses[okCode].content : undefined
+
+      const okContentFallbackKey = okContent && Object.keys(okContent).find(key => key.includes("json"))
+      const okContentFallback = okContentFallbackKey ? okContent[okContentFallbackKey] : undefined
+
+      const returnScheme = (okContent && okContent["application/json"].schema) || (okContentFallback && okContentFallback.schema)
+      const returnType = returnScheme ? `Action<${getSchemaType(returnScheme)}>` : "Action"
 
       const paramsDescription = Object.keys(params).map(key => {
         const param = params[key]
