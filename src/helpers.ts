@@ -40,8 +40,12 @@ export function getSchemaType(scheme: Schema): string {
 
 export function reduceProperties(props?: Record<string, Schema>, required?: string[]): string {
   if (props == null) return "{ }"
-  const propsString = Object.keys(props).map(prop => `  ${prop}${required ? (!required.includes(prop) ? "?" : "") : ""}: ${getSchemaType(props[prop])}`, "").join("\n")
-  return `{\n${propsString}\n}`
+
+  const propsString = Object.keys(props).map(prop => {
+    const optionalSign = required ? (!required.includes(prop) ? "?" : "") : ""
+    return `  ${prop}${optionalSign}: ${getSchemaType(props[prop])}`
+  }, "")
+  return `{\n${propsString.join("\n")}\n}`
 }
 
 export function capitalize(string: string) {
