@@ -1,13 +1,5 @@
-import { getSchemaType } from "./helpers"
-import { ActionArgs, Parameter, Paths } from "./types"
-
-function reduceParameters(parameters: Parameter[]): ActionArgs {
-  return parameters.reduce((result, next) => ({ ...result, [next.name]: { required: next.required ?? true, schemaType: getSchemaType(next.schema) } }), {} as ActionArgs)
-}
-
-function joinArgs(args: ActionArgs) {
-  return Object.keys(args).map(arg => `${arg}${args[arg].required ? "" : "?"}: ${args[arg].schemaType}`).join(", ")
-}
+import { getSchemaType, joinArgs, reduceParameters } from "./helpers"
+import { ActionArgs, Paths } from "./types"
 
 function generateActions(paths: Paths) {
   const lines: string[] = []

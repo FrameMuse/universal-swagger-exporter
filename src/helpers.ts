@@ -48,6 +48,14 @@ export function reduceProperties(props?: Record<string, Schema>, required?: stri
   return `{\n${propsString.join("\n")}\n}`
 }
 
+export function reduceParameters(parameters: Parameter[]): ActionArgs {
+  return parameters.reduce((result, next) => ({ ...result, [next.name]: { ...next, required: (next.required ?? (next.in !== "query")), schemaType: getSchemaType(next.schema) } }), {} as ActionArgs)
+}
+
+export function joinArgs(args: ActionArgs) {
+  return Object.keys(args).map(arg => `${arg}${args[arg].required ? "" : "?"}: ${args[arg].schemaType}`).join(", ")
+}
+
 export function capitalize(string: string) {
   return string[0].toUpperCase() + string.slice(1)
 }
