@@ -1,5 +1,5 @@
-import { formatString, getSchemaType, reduceProperties } from "helpers"
-import { Schemas } from "types"
+import { deRefSchemaType, formatString, getSchemaType, reduceProperties } from "helpers"
+import { Schema, Schemas } from "types"
 
 export function generateSchemasImports(schemas: Schemas) {
   const imports: string[] = []
