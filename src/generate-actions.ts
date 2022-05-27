@@ -32,6 +32,13 @@ function generateActions(paths: Paths) {
       const okCode = pathContentResponseCodes.find(code => Number(code) >= 200 && Number(code) < 300)
       const okContent = okCode ? pathContent.responses[okCode].content : undefined
 
+      if (okContent) {
+        if (!okContent["application/json"]) {
+          console.warn(okCode && pathContent.responses[okCode].content)
+          console.warn("The `application/json` type wasn't found, it will be replaced with key")
+        }
+      }
+
       const okContentFallbackKey = okContent && Object.keys(okContent).find(key => key.includes("json"))
       const okContentFallback = okContentFallbackKey ? okContent[okContentFallbackKey] : undefined
 
