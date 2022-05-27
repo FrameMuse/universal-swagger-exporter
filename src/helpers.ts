@@ -2,7 +2,8 @@ import { Schema } from "./types"
 
 export function deRefSchemaType(ref?: string) {
   if (ref == null) return ""
-  return ref.replace(/#\/components\/schemas\/(\w+)/, (_, g) => "Schema" + formatString(g))
+  // `#/components/schemas/` has 21 chars
+  return "Schema" + formatString(ref.slice(21))
 }
 export function getSchemaType(scheme: Schema): string {
   switch (scheme.type) {
