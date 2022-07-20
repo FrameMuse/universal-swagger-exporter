@@ -1,6 +1,5 @@
 {
   "version": "0.4.0",
-  "private": true,
   "type": "module",
   "name": "swagger-export-actions",
   "description": "Automated script | Swagger export to react-fetching-library actions",
@@ -8,9 +7,7 @@
   "files": [
     "dist"
   ],
-  "bin": {
-    "swagger-export-actions": "dist/index.ts"
-  },
+  "bin": "dist/index.js",
   "scripts": {
     "build": "ncc build src/index.ts",
     "watch": "ncc build src/index.ts -w",
