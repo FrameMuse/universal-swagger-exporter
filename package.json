@@ -4,7 +4,10 @@
   "type": "module",
   "name": "swagger-export-actions",
   "description": "Automated script | Swagger export to react-fetching-library actions",
-  "main": "dist/index.js",
+  "main": "index.ts",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "swagger-export-actions": "dist/index.ts"
   },
