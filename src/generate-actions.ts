@@ -20,13 +20,27 @@ function generateActions(paths: Paths) {
       const requestBodyType = (requestBody && getSchemaType(requestBody.schema)) || (requestBodyFallback && getSchemaType(requestBodyFallback.schema))
 
       const args: ActionArgs = reduceParameters(pathContentParameters)
+      const argKeys = Object.keys(args)
+      const pageParam = argKeys.includes("page")
+      const pageSizeParam = argKeys.includes("page_size")
+      const hasPagination = pageParam || pageSizeParam
+      if (hasPagination) {
+        delete args["page"]
+        delete args["page_size"]
+      }
       const argsString = joinArgs(args)
 
       const params = reduceParameters(pathContentParameters.filter(param => param.in === "query"))
-      const paramsString = Object.keys(params).join(", ")
+      if (hasPagination) {
+        delete params["page"]
+        delete params["page_size"]
+      }
+      const paramKeys = Object.keys(params)
+      const paramsString = paramKeys.join(", ")
+
 
       const action = path
-        .replace(/{/g, "By/")
+        .replace(/{/g, "/")
         .replace(/}/g, "")
         .replace(/\/(\w)/g, (_, g) => String(g).toUpperCase())
         .replace(/\//g, "")
@@ -34,7 +48,7 @@ function generateActions(paths: Paths) {
 
 
 
-      const okCode = pathContentResponseCodes.find(code => Number(code) >= 200 && Number(code) < 300)
+      const okCode = pathContentResponseCodes.find(code => code === "default" || (Number(code) >= 200 && Number(code) < 300))
       const okContent = okCode ? pathContent.responses[okCode].content : undefined
 
       if (okContent) {
@@ -57,7 +71,14 @@ function generateActions(paths: Paths) {
         }
         return ""
       })
+
+      const body = pathMethod === "patch" ? `Partial<${requestBodyType}>` : requestBodyType
       const description = pathContent.description || (pathContent.responses[okCode || ""]?.description) || ""
+
+      const config: Record<string, unknown> = {}
+      if (hasPagination) {
+        config["pagination"] = true
+      }
 
       lines.push(`\n`)
       if (paramsDescription.length > 0 || description.length > 0) {
@@ -66,7 +87,7 @@ function generateActions(paths: Paths) {
         lines.push(...paramsDescription)
         lines.push(` */\n`)
       }
-      lines.push(`export const ${pathMethod}${action} = (${argsString}${requestBodyType ? `${argsString.length ? ", " : ""}body: ${requestBodyType}` : ""}): ${returnType} => ({\n`)
+      lines.push(`export const ${pathMethod}${action} = (${argsString}${requestBodyType ? `${argsString.length ? ", " : ""}body: ${body}` : ""}): ${returnType} => ({\n`)
       lines.push(`  method: "${pathMethod.toUpperCase()}",\n`)
       lines.push(`  endpoint: \`${path.replace(/{/g, "${")}\``)
       if (paramsString.length > 0) {
@@ -74,6 +95,11 @@ function generateActions(paths: Paths) {
       }
       if (requestBodyType) {
         lines.push(`,\n  body`)
+      }
+      if (Object.keys(config).length > 0) {
+        lines.push(`,\n  config: {`)
+        lines.push(`\n    ${Object.entries(config).map(([key, value]) => `${key}: ${value}`).join(",\n")}`)
+        lines.push(`\n  }`)
       }
       lines.push(`\n})\n`)
     }

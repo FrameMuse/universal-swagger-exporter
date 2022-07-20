@@ -7,6 +7,7 @@ export type Primitive = "string" | "integer" | "number" | "boolean" | "array" | 
 
 interface SchemaArray {
   type: "array"
+  title?: string
   /**
    * Items that are represented by this `array`.
    */
@@ -19,6 +20,7 @@ interface SchemaArray {
 
 interface SchemaObject {
   type: "object"
+  title?: string
   properties?: Record<string, Schema>
   /**
    * List of required fields related to `properties` field.
@@ -31,11 +33,33 @@ interface SchemaObject {
   nullable?: boolean
 }
 
+interface SchemaNumber {
+  type: "integer"
+  minimum?: number
+  maximum?: number
+  nullable?: boolean
+  title?: string
+}
+
+interface SchemaString {
+  type: "string"
+  maxLength?: number
+  nullable?: boolean
+  title?: string
+}
+
 interface SchemaAny {
   /**
    * Type of the `Schema`.
    */
   type?: Exclude<Primitive, "array" | "object">
+
+  format?: "date-time" | "int32"
+  title?: string
+  description?: string
+  readOnly?: boolean
+
+
   /**
    * Default value of the `Schema`.
    */
@@ -66,9 +90,10 @@ interface SchemaAny {
    * @example SchemaName1 & SchemaName2
    */
   allOf?: Schema[]
+  anyOf?: Schema[]
 }
 
-export type Schema = SchemaArray | SchemaObject | SchemaAny
+export type Schema = SchemaArray | SchemaObject | SchemaNumber | SchemaString | SchemaAny
 
 export interface Parameter {
   name: string

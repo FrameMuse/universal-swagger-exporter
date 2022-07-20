@@ -3,7 +3,7 @@ import { ActionArgs, Parameter, Schema } from "./types"
 export function deRefSchemaType(ref?: string) {
   if (ref == null) return ""
   // `#/components/schemas/` has 21 chars
-  return "Schema" + formatString(ref.slice(21))
+  return "" + formatString(ref.slice(21))
 }
 export function getSchemaType(schema: Schema): string {
   function getType() {
@@ -26,9 +26,13 @@ export function getSchemaType(schema: Schema): string {
         if (schema.type) {
           return schema.type.replace("integer", "number")
         }
-        // If has allOf, this is an array
+        // If has allOf, this is a union `&`
         if (schema.allOf) {
           return schema.allOf.map(getSchemaType).join(" & ")
+        }
+        // If has allOf, this is a ... `|`
+        if (schema.anyOf) {
+          return schema.anyOf.map(getSchemaType).join(" | ")
         }
         // If has enum, this is a string
         if (schema.enum) {
@@ -61,7 +65,7 @@ export function reduceParameters(parameters: Parameter[]): ActionArgs {
 }
 
 export function joinArgs(args: ActionArgs) {
-  return Object.keys(args).map(arg => `${arg}${args[arg].required ? "" : "?"}: ${args[arg].schemaType}`).join(", ")
+  return Object.keys(args).map(arg => `${arg}${args[arg].required ? "" : "?"}: ${args[arg].schemaType}`).sort(a => a.includes("?") ? 0 : -1).join(", ")
 }
 
 export function capitalize(string: string) {
