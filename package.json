@@ -7,7 +7,7 @@
   "files": [
     "dist"
   ],
-  "bin": "dist/index.mjs",
+  "bin": "dist/index.js",
   "scripts": {
     "build": "ncc build src/index.ts --prefix '#!/usr/bin/env node'",
     "watch": "ncc build src/index.ts -w",
