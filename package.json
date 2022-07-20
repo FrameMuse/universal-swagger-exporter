@@ -9,7 +9,7 @@
     "watch": "ncc build src/index.ts -w",
     "compile": "npm run build && npm run start && npm run post-fix",
     "help": "ncc",
-    "start": "node dist/index.js",
+    "start": "node dist/index.js --in data/api.json --out out/data",
     "post-fix": "eslint out --fix"
   },
   "keywords": [
@@ -24,7 +24,8 @@
   "license": "MIT",
   "dependencies": {
     "fs": "^0.0.1-security",
-    "jest": "^28.0.2"
+    "jest": "^28.0.2",
+    "yargs": "^17.5.1"
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
