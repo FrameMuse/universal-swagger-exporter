@@ -1,5 +1,5 @@
 {
-  "version": "0.4.5",
+  "version": "0.4.6",
   "type": "module",
   "name": "swagger-export-actions",
   "description": "Automated script | Swagger export to react-fetching-library actions",
