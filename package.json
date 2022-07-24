@@ -9,7 +9,7 @@
   ],
   "bin": "dist/index.js",
   "scripts": {
-    "build": "ncc build src/index.ts --prefix '#!/usr/bin/env node'",
+    "build": "ncc build src/index.ts",
     "watch": "ncc build src/index.ts -w",
     "compile": "npm run build && npm run start && npm run post-fix",
     "help": "ncc",
