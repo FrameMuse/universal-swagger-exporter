@@ -94,6 +94,19 @@ interface SchemaAny {
 }
 
 export type Schema = SchemaArray | SchemaObject | SchemaNumber | SchemaString | SchemaAny
+/**
+ * Stringified schema.
+ * 
+ * @example
+ * "UserType"
+ * @example
+ * {
+ *   id: number
+ *   name: string
+ *   type: "admin" | "default"
+ * }
+ */
+export type SchemaType = string & {}
 
 export interface Parameter {
   name: string
@@ -124,4 +137,6 @@ export type PathMethod = Record<string, {
 export type Paths = Record<string, PathMethod>
 export type Schemas = Record<string, Schema>
 
-export type ActionArgs = Record<string, Omit<Parameter, "required" | "schema"> & { required: boolean, schemaType: string }>
+export type PathArgs = Record<string, Omit<Parameter, "required" | "schema"> & { required: boolean, schemaType: string }>
+
+export type RequestMethod = "GET" | "HEAD" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS"

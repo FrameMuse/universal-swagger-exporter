@@ -1,11 +1,12 @@
-import { ActionArgs, Parameter, Schema } from "./types"
+import { Parameter, PathArgs, Schema, SchemaType } from "./types"
 
-export function deRefSchemaType(ref?: string) {
-  if (ref == null) return ""
+export function deRefSchemaType(schemaRef?: string): SchemaType {
+  if (schemaRef == null) return ""
   // `#/components/schemas/` has 21 chars
-  return "" + formatString(ref.slice(21))
+  return formatString(schemaRef.slice(21))
 }
-export function getSchemaType(schema: Schema): string {
+
+export function getSchemaType(schema: Schema): SchemaType {
   function getType() {
     switch (schema.type) {
       case "array": {
@@ -60,11 +61,11 @@ export function reduceProperties(props?: Record<string, Schema>, required?: stri
   return `{\n${propsString.join("\n")}\n}`
 }
 
-export function reduceParameters(parameters: Parameter[]): ActionArgs {
-  return parameters.reduce((result, next) => ({ ...result, [next.name]: { ...next, required: (next.required ?? (next.in !== "query")), schemaType: getSchemaType(next.schema) } }), {} as ActionArgs)
+export function reduceParameters(parameters: Parameter[]): PathArgs {
+  return parameters.reduce((result, next) => ({ ...result, [next.name]: { ...next, required: (next.required ?? (next.in !== "query")), schemaType: getSchemaType(next.schema) } }), {} as PathArgs)
 }
 
-export function joinArgs(args: ActionArgs) {
+export function joinArgs(args: PathArgs) {
   return Object.keys(args).map(arg => `${arg}${args[arg].required ? "" : "?"}: ${args[arg].schemaType}`).sort(a => a.includes("?") ? 0 : -1).join(", ")
 }
 

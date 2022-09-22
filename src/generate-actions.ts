@@ -1,8 +1,36 @@
 import { getSchemaType, joinArgs, reduceParameters } from "./helpers"
-import { ActionArgs, Paths } from "./types"
+import { PathArgs, Paths, RequestMethod, SchemaType } from "./types"
 
-function generateActions(paths: Paths) {
-  const lines: string[] = []
+interface RequestAction {
+  /**
+   * Origin path.
+   * 
+   * @example
+   * "/user/coins"
+   */
+  path: string
+  /**
+   * Path name transformed to `camelCase`. 
+   * 
+   * @example
+   * "userCoins"
+   */
+  name: string
+  method: RequestMethod
+  description: string
+
+  args: PathArgs
+  queryParams: PathArgs
+
+  requestBodyType: SchemaType | undefined
+  responseBodyType: SchemaType | undefined
+}
+
+export type RequestActionBuilder = (requestAction: RequestAction) => string
+
+function parsePathsToRequestActions(paths: Paths) {
+  const refinedPaths: RequestAction[] = []
+
   for (const path in paths) {
     const pathMethods = paths[path]
     for (const pathMethod in pathMethods) {
@@ -19,27 +47,9 @@ function generateActions(paths: Paths) {
 
       const requestBodyType = (requestBody && getSchemaType(requestBody.schema)) || (requestBodyFallback && getSchemaType(requestBodyFallback.schema))
 
-      const args: ActionArgs = reduceParameters(pathContentParameters)
-      const argKeys = Object.keys(args)
-      const pageParam = argKeys.includes("page")
-      const pageSizeParam = argKeys.includes("page_size")
-      const hasPagination = pageParam || pageSizeParam
-      if (hasPagination) {
-        delete args["page"]
-        delete args["page_size"]
-      }
-      const argsString = joinArgs(args)
-
-      const params = reduceParameters(pathContentParameters.filter(param => param.in === "query"))
-      if (hasPagination) {
-        delete params["page"]
-        delete params["page_size"]
-      }
-      const paramKeys = Object.keys(params)
-      const paramsString = paramKeys.join(", ")
-
-
-      const action = path
+      const args: PathArgs = reduceParameters(pathContentParameters)
+      const queryParams = reduceParameters(pathContentParameters.filter(param => param.in === "query"))
+      const name = path
         .replace(/{/g, "/")
         .replace(/}/g, "")
         .replace(/\/(\w)/g, (_, g) => String(g).toUpperCase())
@@ -61,50 +71,70 @@ function generateActions(paths: Paths) {
       const okContentFallbackKey = okContent && Object.keys(okContent).find(key => key.includes("json"))
       const okContentFallback = okContentFallbackKey ? okContent[okContentFallbackKey] : undefined
 
-      const returnScheme = (okContent && okContent["application/json"].schema) || (okContentFallback && okContentFallback.schema)
-      const returnType = returnScheme ? `Action<${getSchemaType(returnScheme)}>` : "Action"
+      const responseBodyScheme = (okContent && okContent["application/json"].schema) || (okContentFallback && okContentFallback.schema)
+      const responseBodyType = responseBodyScheme && getSchemaType(responseBodyScheme)
 
-      const paramsDescription = Object.keys(params).map(key => {
-        const param = params[key]
-        if (param.description) {
-          return ` * @param ${key} - ${param.description} \n`
-        }
-        return ""
-      })
-
-      const body = pathMethod === "patch" ? `Partial<${requestBodyType}>` : requestBodyType
       const description = pathContent.description || (pathContent.responses[okCode || ""]?.description) || ""
 
-      const config: Record<string, unknown> = {}
-      if (hasPagination) {
-        config["pagination"] = true
-      }
+      refinedPaths.push({
+        description,
 
-      lines.push(`\n`)
-      if (paramsDescription.length > 0 || description.length > 0) {
-        lines.push(`/**\n`)
-        lines.push(...description.split("\n").map(chunk => ` * ${chunk}\n`))
-        lines.push(...paramsDescription)
-        lines.push(` */\n`)
-      }
-      lines.push(`export const ${pathMethod}${action} = (${argsString}${requestBodyType ? `${argsString.length ? ", " : ""}body: ${body}` : ""}): ${returnType} => ({\n`)
-      lines.push(`  method: "${pathMethod.toUpperCase()}",\n`)
-      lines.push(`  endpoint: \`${path.replace(/{/g, "${")}\``)
-      if (paramsString.length > 0) {
-        lines.push(`,\n  params: { ${paramsString} }`)
-      }
-      if (requestBodyType) {
-        lines.push(`,\n  body`)
-      }
-      if (Object.keys(config).length > 0) {
-        lines.push(`,\n  config: {`)
-        lines.push(`\n    ${Object.entries(config).map(([key, value]) => `${key}: ${value}`).join(",\n")}`)
-        lines.push(`\n  }`)
-      }
-      lines.push(`\n})\n`)
+        path,
+        name,
+        method: pathMethod as RequestMethod,
+
+        args,
+        queryParams: queryParams,
+        requestBodyType,
+        responseBodyType,
+      })
     }
   }
+
+  return refinedPaths
+}
+
+function defaultRequestActionBuilder(requestAction: RequestAction): string {
+  const lines: string[] = []
+
+
+  const argsString = joinArgs(requestAction.args)
+  const queryParamKeys = Object.keys(requestAction.queryParams)
+  const queryParamsString = queryParamKeys.join(", ")
+  const queryParamDescriptions =
+    Object
+      .entries(requestAction.queryParams)
+      .map(([key, value]) => value.description ? ` * @param ${key} - ${value.description} \n` : "")
+  const requestBody = requestAction.method === "PATCH" ? `Partial<${requestAction.requestBodyType}>` : requestAction.requestBodyType
+
+
+  if (queryParamDescriptions.length > 0 || requestAction.description.length > 0) {
+    lines.push(`/**\n`)
+    lines.push(...requestAction.description.split("\n").map(chunk => ` * ${chunk}\n`))
+    lines.push(...queryParamDescriptions)
+    lines.push(` */\n`)
+  }
+  lines.push(`export const ${requestAction.method}${requestAction.name} = (${argsString}${requestAction.requestBodyType ? `${argsString.length ? ", " : ""}body: ${requestBody}` : ""}): ${requestAction.responseBodyType} => ({\n`)
+  lines.push(`  method: "${requestAction.method.toUpperCase()}",\n`)
+  lines.push(`  endpoint: \`${requestAction.path.replace(/{/g, "${")}\``)
+  if (queryParamsString.length > 0) {
+    lines.push(`,\n  params: { ${queryParamsString} }`)
+  }
+  if (requestAction.requestBodyType) {
+    lines.push(`,\n  body`)
+  }
+  lines.push(`\n})`)
+
+
   return lines.join("")
+}
+
+function generateActions(paths: Paths, buildRequestAction: RequestActionBuilder = defaultRequestActionBuilder): string {
+  const requestActions = parsePathsToRequestActions(paths)
+  const requestActionsBuilt = requestActions.map(buildRequestAction)
+  const requestActionsJoined = requestActionsBuilt.join("\n\n")
+
+  return requestActionsJoined
 }
 
 export default generateActions

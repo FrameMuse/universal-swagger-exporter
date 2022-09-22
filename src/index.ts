@@ -24,8 +24,13 @@ const argv = yargs(hideBin(process.argv))
 
   .argv
 
+if (!("output" in argv)) {
+  throw new Error("There is no output in `argv`")
+}
 
-!fs.existsSync(argv.output) && fs.mkdirSync(argv.output)
+if (!fs.existsSync(argv.output)) {
+  fs.mkdirSync(argv.output, { recursive: true })
+}
 
 const inputJson = JSON.parse(fs.readFileSync(argv.input).toString("utf-8"))
 
