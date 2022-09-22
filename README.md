@@ -1,6 +1,6 @@
-# swagger-export-actions
+# Universal Swagger Exporter
 
-Automated script | [Swagger](https://swagger.io/) export to [react-fetching-library](https://github.com/marcin-piela/react-fetching-library) actions
+A configurable [Swagger](https://swagger.io/) exporter that parse json data to actions and schemas in TypeScript.
 
 ## Setup
 
