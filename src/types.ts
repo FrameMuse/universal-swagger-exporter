@@ -66,7 +66,7 @@ interface SchemaAny {
   default?: Primitive
   /**
    * Reference to another `Schema`.
-   * 
+   *
    * @example "#/components/schemas/SchemaName"
    */
   $ref?: string
@@ -78,14 +78,14 @@ interface SchemaAny {
    * Represents union of possible `string` values.
    * It means that the `Schema` has `string` type.
    * The unions are joined by `|` sign.
-   * 
+   *
    * @example "guest" | "user"
    */
   enum?: string[]
   /**
    * Represents union of possible values.
    * The unions are joined by `&` sign.
-   * 
+   *
    * @example { foo: string } & { bar: number[] }
    * @example SchemaName1 & SchemaName2
    */
@@ -96,7 +96,7 @@ interface SchemaAny {
 export type Schema = SchemaArray | SchemaObject | SchemaNumber | SchemaString | SchemaAny
 /**
  * Stringified schema.
- * 
+ *
  * @example
  * "UserType"
  * @example
@@ -121,6 +121,8 @@ export interface Parameter {
 export type PathMethod = Record<string, {
   description?: string
   parameters?: Parameter[]
+  summary?: string
+  operationId?: string
   requestBody?: {
     content: {
       [k in string]: { schema: Schema }

@@ -1,17 +1,19 @@
+import _ from "lodash"
+
 import { getSchemaType, joinArgs, reduceParameters } from "./helpers"
 import { PathArgs, Paths, RequestMethod, SchemaType } from "./types"
 
 interface RequestAction {
   /**
    * Origin path.
-   * 
+   *
    * @example
    * "/user/coins"
    */
   path: string
   /**
-   * Path name transformed to `camelCase`. 
-   * 
+   * Path name transformed to `camelCase`.
+   *
    * @example
    * "userCoins"
    */
@@ -24,6 +26,14 @@ interface RequestAction {
 
   requestBodyType: SchemaType | undefined
   responseBodyType: SchemaType | undefined
+
+  /**
+   * @default
+   * "json"
+   */
+  contentType?: "formData" | "json"
+  summary?: string
+  operationId?: string
 }
 
 export type RequestActionBuilder = (requestAction: RequestAction) => string
@@ -39,13 +49,44 @@ function parsePathsToRequestActions(paths: Paths) {
       const pathContentRequestBody = pathContent.requestBody
       const pathContentResponseCodes = Object.keys(pathContent.responses)
 
+      const getRequestBody = () => {
+        if (pathContentRequestBody == null) return
 
-      const requestBody = pathContentRequestBody?.content["multipart/form-data"]
+        const content = pathContentRequestBody.content
 
-      const requestBodyFallbackKey = pathContentRequestBody?.content && Object.keys(pathContentRequestBody?.content).find(key => key.includes("json"))
-      const requestBodyFallback = requestBodyFallbackKey ? pathContentRequestBody?.content?.[requestBodyFallbackKey] : undefined
+        const requestBodyAny = Object.keys(content).find(key => !key.includes("json"))
+        const requestBodyJson = Object.keys(content).find(key => key.includes("json"))
 
-      const requestBodyType = (requestBody && getSchemaType(requestBody.schema)) || (requestBodyFallback && getSchemaType(requestBodyFallback.schema))
+        if (requestBodyJson) {
+          return content[requestBodyJson]
+        }
+
+        if (requestBodyAny) {
+          return content[requestBodyAny]
+        }
+      }
+
+      const getContentType = (): "formData" | "json" | undefined => {
+        if (pathContentRequestBody == null) return
+
+        const content = pathContentRequestBody.content
+
+        const requestBodyJson = Object.keys(content).find(key => key.includes("json"))
+        const requestBodyFormData = Object.keys(content).find(key => key.includes("form"))
+
+        if (requestBodyJson) {
+          return "json"
+        }
+
+        if (requestBodyFormData) {
+          return "formData"
+        }
+      }
+
+      const requestBody = getRequestBody()
+      const requestBodyType = requestBody && getSchemaType(requestBody.schema)
+
+      const contentType = getContentType()
 
       const args: PathArgs = reduceParameters(pathContentParameters)
       const queryParams = reduceParameters(pathContentParameters.filter(param => param.in === "query"))
@@ -81,12 +122,16 @@ function parsePathsToRequestActions(paths: Paths) {
 
         path,
         name,
-        method: pathMethod as RequestMethod,
+        method: _.upperCase(pathMethod) as RequestMethod,
 
         args,
         queryParams: queryParams,
         requestBodyType,
         responseBodyType,
+
+        contentType,
+        operationId: pathContent.operationId,
+        summary: pathContent.summary,
       })
     }
   }
@@ -107,6 +152,7 @@ function defaultRequestActionBuilder(requestAction: RequestAction): string {
       .map(([key, value]) => value.description ? ` * @param ${key} - ${value.description} \n` : "")
   const requestBody = requestAction.method === "PATCH" ? `Partial<${requestAction.requestBodyType}>` : requestAction.requestBodyType
 
+  const returnType = requestAction.responseBodyType ? `Action<${requestAction.responseBodyType}>` : "Action"
 
   if (queryParamDescriptions.length > 0 || requestAction.description.length > 0) {
     lines.push(`/**\n`)
@@ -114,7 +160,7 @@ function defaultRequestActionBuilder(requestAction: RequestAction): string {
     lines.push(...queryParamDescriptions)
     lines.push(` */\n`)
   }
-  lines.push(`export const ${requestAction.method}${requestAction.name} = (${argsString}${requestAction.requestBodyType ? `${argsString.length ? ", " : ""}body: ${requestBody}` : ""}): ${requestAction.responseBodyType} => ({\n`)
+  lines.push(`export const ${_.camelCase(requestAction.method + requestAction.name)} = (${argsString}${requestAction.requestBodyType ? `${argsString.length ? ", " : ""}body: ${requestBody}` : ""}): ${returnType} => ({\n`)
   lines.push(`  method: "${requestAction.method.toUpperCase()}",\n`)
   lines.push(`  endpoint: \`${requestAction.path.replace(/{/g, "${")}\``)
   if (queryParamsString.length > 0) {
@@ -122,6 +168,12 @@ function defaultRequestActionBuilder(requestAction: RequestAction): string {
   }
   if (requestAction.requestBodyType) {
     lines.push(`,\n  body`)
+  }
+  if (requestAction.contentType && requestAction.contentType !== "json") {
+    lines.push(`,\n  contentType: "${requestAction.contentType}"`)
+  }
+  if (requestAction.operationId) {
+    lines.push(`,\n  operationId: "${requestAction.operationId}"`)
   }
   lines.push(`\n})`)
 
