@@ -11,14 +11,17 @@ export function getSchemaType(schema: Schema): SchemaType {
     switch (schema.type) {
       case "array": {
         if (schema.items == null) {
-          return schema.type
+          return "unknown[]"
+        }
+        if ("properties" in schema.items) {
+          return getSchemaType({ ...schema.items, type: "object" }) + "[]"
         }
         return getSchemaType(schema.items) + "[]"
       }
 
       case "object": {
         if (schema.properties == null) {
-          return schema.type
+          return "Record<keyof never, unknown>"
         }
         return reduceProperties(schema.properties, schema.required)
       }
