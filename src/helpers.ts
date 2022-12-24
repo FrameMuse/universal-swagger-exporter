@@ -30,13 +30,17 @@ export function getSchemaType(schema: Schema): SchemaType {
         if (schema.type) {
           return schema.type.replace("integer", "number")
         }
-        // If has allOf, this is a union `&`
+        // If has allOf, this is a intersection `&`
         if (schema.allOf) {
           return schema.allOf.map(getSchemaType).join(" & ")
         }
-        // If has allOf, this is a ... `|`
+        // If has anyOf, this is union `|`
         if (schema.anyOf) {
           return schema.anyOf.map(getSchemaType).join(" | ")
+        }
+        // If has oneOf, this is union `|`
+        if (schema.oneOf) {
+          return schema.oneOf.map(getSchemaType).join(" | ")
         }
         // If has enum, this is a string
         if (schema.enum) {

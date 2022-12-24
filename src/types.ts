@@ -91,6 +91,7 @@ interface SchemaAny {
    */
   allOf?: Schema[]
   anyOf?: Schema[]
+  oneOf?: Schema[]
 }
 
 export type Schema = SchemaArray | SchemaObject | SchemaNumber | SchemaString | SchemaAny
