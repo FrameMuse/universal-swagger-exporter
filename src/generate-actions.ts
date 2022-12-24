@@ -150,7 +150,20 @@ function defaultRequestActionBuilder(requestAction: RequestAction): string {
     Object
       .entries(requestAction.queryParams)
       .map(([key, value]) => value.description ? ` * @param ${key} - ${value.description} \n` : "")
-  const requestBody = requestAction.method === "PATCH" ? `Partial<${requestAction.requestBodyType}>` : requestAction.requestBodyType
+
+  function getRequestBody(): string | undefined {
+    if (requestAction.contentType === "formData") {
+      return "FormData"
+    }
+
+    if (requestAction.method === "PATCH") {
+      return `Partial<${requestAction.requestBodyType}>`
+    }
+
+    return requestAction.requestBodyType
+  }
+
+  const requestBody = getRequestBody()
 
   const returnType = requestAction.responseBodyType ? `Action<${requestAction.responseBodyType}>` : "Action"
 
