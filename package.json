@@ -31,7 +31,10 @@
   "license": "MIT",
   "dependencies": {
     "fs": "^0.0.1-security",
-    "yargs": "^17.5.1"
+    "openapi-to-md": "^1.0.17",
+    "widdershins": "^4.0.1",
+    "yargs": "^17.5.1",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",

@@ -11,40 +11,40 @@ export function getSchemaType(schema: Schema): SchemaType {
     switch (schema.type) {
       case "array": {
         if (schema.items == null) {
-          return "unknown[]"
+          return "z.unknown().array()"
         }
         if ("properties" in schema.items) {
-          return getSchemaType({ ...schema.items, type: "object" }) + "[]"
+          return getSchemaType({ ...schema.items, type: "object" }) + ".array()"
         }
-        return getSchemaType(schema.items) + "[]"
+        return getSchemaType(schema.items) + ".array()"
       }
 
       case "object": {
         if (schema.properties == null) {
           return "Record<keyof never, unknown>"
         }
-        return reduceProperties(schema.properties, schema.required)
+        return `z.object(${reduceProperties(schema.properties, schema.required)})`
       }
 
       default: {
         if (schema.type) {
-          return schema.type.replace("integer", "number")
+          return `z.${schema.type.replace("integer", "number")}()`
         }
         // If has allOf, this is a intersection `&`
         if (schema.allOf) {
-          return schema.allOf.map(getSchemaType).join(" & ")
+          return schema.allOf.map(getSchemaType).map(addParens).join(".and")
         }
         // If has anyOf, this is union `|`
         if (schema.anyOf) {
-          return schema.anyOf.map(getSchemaType).join(" | ")
+          return schema.anyOf.map(getSchemaType).map(addParens).join(".or")
         }
         // If has oneOf, this is union `|`
         if (schema.oneOf) {
-          return schema.oneOf.map(getSchemaType).join(" | ")
+          return schema.oneOf.map(getSchemaType).map(addParens).join(".or")
         }
         // If has enum, this is a string
         if (schema.enum) {
-          return schema.enum.map(element => `"${element}"`).join(" | ")
+          return `z.enum("${schema.enum.join(`", "`)}")`
         }
         return deRefSchemaType(schema.$ref)
       }
@@ -53,7 +53,7 @@ export function getSchemaType(schema: Schema): SchemaType {
   const schemaType = getType()
   // Post processing
   if (schema.nullable) {
-    return `${schemaType} | null`
+    return `${schemaType}.nullable()`
   }
   return schemaType
 }
@@ -62,10 +62,11 @@ export function reduceProperties(props?: Record<string, Schema>, required?: stri
   if (props == null) return "{ }"
 
   const propsString = Object.keys(props).map(prop => {
-    const optionalSign = required ? (!required.includes(prop) ? "?" : "") : ""
-    return `  ${prop}${optionalSign}: ${getSchemaType(props[prop])}`
+    const optionalMarker = required ? (!required.includes(prop) ? ".optional()" : "") : ""
+
+    return `  ${prop}: ${getSchemaType(props[prop])}` + optionalMarker
   }, "")
-  return `{\n${propsString.join("\n")}\n}`
+  return `{\n${propsString.join(",\n")}\n}`
 }
 
 export function reduceParameters(parameters: Parameter[]): PathArgs {
@@ -86,4 +87,10 @@ export function toCamelCase(string: string) {
 
 export function formatString(string: string) {
   return capitalize(toCamelCase(string))
+}
+
+function addParens(value: string, index: number) {
+  if (index === 0) return value
+
+  return `(${value})`
 }

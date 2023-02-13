@@ -9,6 +9,8 @@ export function generateSchemasImports(schemas: Schemas) {
 
 function generateSchemas(schemas: Schemas) {
   const lines: string[] = []
+  lines.push(`import { z } from "zod"`)
+  lines.push(`\n`)
   for (const schemaName in schemas) {
     const schema = schemas[schemaName]
     const schemaNameFormatted = formatString(schemaName)
@@ -16,13 +18,17 @@ function generateSchemas(schemas: Schemas) {
 
     switch (schema.type) {
       case "object":
-        lines.push(`export interface ${schemaNameFormatted}`)
-        lines.push(` `)
+        lines.push(`/**`)
+        lines.push(` * ### [Reference]()`)
+        lines.push(` */`)
+        lines.push(`export var ${schemaNameFormatted} = z.object(`)
+        // lines.push(` `)
         lines.push(reduceProperties(schema.properties, schema.required))
+        lines.push(`)`)
         break
 
       default:
-        lines.push(`export type ${schemaNameFormatted} = ${getSchemaType(schema)}`)
+        lines.push(`export var ${schemaNameFormatted} = ${getSchemaType(schema)}`)
         break
     }
 
